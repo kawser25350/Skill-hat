@@ -1,4 +1,4 @@
-echo "# 🧢 Skill-Hat
+ 🧢 Skill-Hat
 
 **Skill-Hat** is a web-based service platform that connects **semi-skilled workers** in Bangladesh (such as electricians, painters, tutors, drivers, and cleaners) with customers seeking **short-term or small-scale services**.  
 The platform ensures **trust, transparency, and security** through verified profiles, escrow payments, and controlled communication.
@@ -144,7 +144,7 @@ Visit the app at **http://127.0.0.1:8000/**
 | Name | Role |
 |------|------|
 | **Kawser Ahmmed** | Project Lead / Full-Stack Developer |
-
+| **Marziya sultana** | developer  /  Frontent-Developer |
 ---
 
 ## 📄 License
@@ -164,4 +164,4 @@ For inquiries, suggestions, or collaborations:
 ---
 
 > **Skill-Hat — Empowering Bangladesh’s semi-skilled workforce with digital trust and opportunity.**
-" > README.md
+
