@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | My Website</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .hero {
+            background: linear-gradient(135deg, #4e73df, #1cc88a);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        footer {
+            padding: 20px 0;
+            background: #343a40;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">MyWebsite</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white px-3 ms-2" href="#">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Welcome to My Website</h1>
+            <p class="lead mt-3">
+                This is a clean and modern Bootstrap homepage ready for your Django project.
+            </p>
+            <a href="#" class="btn btn-light btn-lg mt-3">Get Started</a>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="py-5">
+        <div class="container">
+
+            <h2 class="text-center mb-5">Our Features</h2>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="p-4 bg-white shadow-sm rounded text-center">
+                        <h4>Fast</h4>
+                        <p>Lightning fast performance with modern Bootstrap UI.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-4 bg-white shadow-sm rounded text-center">
+                        <h4>Responsive</h4>
+                        <p>Fully responsive design that works on all devices.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-4 bg-white shadow-sm rounded text-center">
+                        <h4>Easy to Use</h4>
+                        <p>Simple clean code ready to integrate with Django.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 MyWebsite. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
