@@ -22,11 +22,11 @@
 </head>
 
 <body >
-        <div class=" container-fluid">
+        <div class=" container-fluid shadow border-1 border-dark flex-column justify-content-center " style="font-family: 'Poppins', sans-serif; background-color: #ffffff;">
 
           
-            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow border-bottom border-1 border-dark rounded-bottom-3">
-                <div class="container mt-3 rounded-bottom-3">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow border-bottom border-1 border-dark rounded-bottom-3" style="background-color: #db1818;" >
+                <div class="container mt-3 rounded-bottom-3" s>
                     
                     <!-- Logo -->
                     <a class="navbar-brand d-flex align-items-center " href="#">
@@ -92,22 +92,72 @@
                 </div>
             </div>
 
-
+           
             <!-- carosual -->
 
-            <div class="m-5 p-3 rounded-3" style="background-color: #f8f9fa;">
-                <h1 class="text-center text-dark">Explore Your Categories</h1>
+           
+               <div class="container-fluid mt-5 p-5 rounded-3" style="background-color: lab(91.91% -1.99 -0.71)">
+               <h1 class="text-center text-dark  p-3">Explore Your Categories</h1>
                 {% static 'images/jihad.jpg' as jihad_img %}
                 {% static 'images/kawser.jpg' as kawser_img %}
                 {% static 'images/sanaullah.jpg' as sanaullah_img %}
                 {% include 'myapp/components/carosual_item.html' with image1=jihad_img image2=kawser_img image3=sanaullah_img image4=jihad_img image5=kawser_img image6=sanaullah_img %}
                 
+                </div>
+
+                <!-- Most Hired Workers -->
+            <div class="container-fluid mt-5 p-5 rounded-3" style="background-color: lab(91.91% -1.99 -0.71)">
+                <h1 class="text-center text-dark p-3 mb-4">Most Hired Workers</h1>
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4 p-4 shadow rounded-3" style="background-color: rgb(255, 255, 255);">
+                        <div class="card  rounded-3 border-0">
+                            <img src="{% static 'images/kawser.jpg' %}" class="card-img-top rounded-top" alt="Worker" style="height:350px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text belloreddslkfjjjjjjjjjjjjjjjjjjjjjjjjjjsddddddddddddddddddddddddddddddddddddddddddddddddow as a natural lead-in to additional content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow rounded-3 border-0" style="background-color: white;">
+                            <img src="{% static 'images/kawser.jpg' %}" class="card-img-top rounded-top" alt="Worker" style="height:350px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below addddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddds a natural lead-in to additional content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow rounded-3 border-0" style="background-color: white;">
+                            <img src="{% static 'images/kawser.jpg' %}" class="card-img-top rounded-top" alt="Worker" style="height:350px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow rounded-3 border-0" style="background-color: white;">
+                            <img src="{% static 'images/kawser.jpg' %}" class="card-img-top rounded-top" alt="Worker" style="height:350px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow rounded-3 border-0" style="background-color: white;">
+                            <img src="{% static 'images/kawser.jpg' %}" class="card-img-top rounded-top" alt="Worker" style="height:350px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            
-          
-
-            
 
             <!-- code here  -->
 
@@ -127,6 +177,6 @@
    <script src="{% static 'js/bootstrap.bundle.js' %}"></script> -->
   
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</div>
+
 </body>
 </html>

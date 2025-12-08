@@ -33,7 +33,18 @@
         transform: translateX(0);
     }
 
-    .card-img img { width: 250px; height: 350px; object-fit: cover; border-radius: 20px; }
+    .card-img img { 
+        width: 250px !important; 
+        height: 350px !important; 
+        object-fit: cover; 
+        border-radius: 20px; 
+        max-width: none !important;
+    }
+    
+    .card {
+        border: none !important;
+        background: transparent !important;
+    }
 </style>
 
 <div class="container text-center my-3">
@@ -56,7 +67,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-img">
-                                <img clas" src="{{ image2 }}" class="img-fluid" alt="Slide 2">
+                                <img src="{{ image2 }}" class="img-fluid" alt="Slide 2">
                             </div>
                             <div class="card-img-overlay">Slide 2</div>
                         </div>
