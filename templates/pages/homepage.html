@@ -7,7 +7,7 @@
 {% block main %}
 
   {% if name == 'kawser' %}
-   {% include "components/nologin_header.html" %}
+   {% include "layouts/nologin_header.html" %}
   {% else %}
      <h1>no user</h1>
   {% endif %}
@@ -50,10 +50,10 @@
                             </div>
                         </div>
                         <div class="flex-row mt-4 ">
-                            <p class=" text-dark d-inline  fw-bold   p-1 rounded-2">
+                            <p class=" text-white d-inline  fw-bold   p-1 rounded-2">
                                 Trending keywords:
                             </p>
-                            <p class=" d-inline  fw-semibold ms-2  p-1 rounded-2">
+                            <p class=" d-inline  fw-semibold ms-2  p-1 rounded-2 text-light">
                                 Cleaning, Plumbing, Electrical, Carpentry, Painting, Gardening
                             </p>
                         </div>
@@ -62,7 +62,7 @@
     </div>
 
 
-    <div class="container p-3 mt-5 bg-light rounded-3" >
+    <div class="container p-3 mt-5 bg-white rounded-3 " >
          <h1 class="text-center text-dark p-3 mb-4">Explore Your Categories</h1>
        {% static 'images/jihad.jpg' as jihad_img %}
                 {% static 'images/kawser.jpg' as kawser_img %}
@@ -71,17 +71,19 @@
     </div>
 
    
-   <div class="container mt-5 p-5 rounded-3" style=" background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
-    <h2 class="text-center mb-5">Most Hired Workers</h2>
+   <div class="container-fluid mt-5 py-5 px-4" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
+    <h2 class="text-center mb-5 fw-bold" style="color: #333;">Most Hired Workers</h2>
 
-    <div class="d-flex flex-wrap justify-content-center gap-3">
+    <div class="d-flex flex-wrap justify-content-center gap-4 px-3">
 
         {% for worker in default_workers %}
-            {% include "components/usercard.html" with worker=worker %}
+            {% include 'components/usercard.html' with worker=worker %}
         {% endfor %}
 
     </div>
 </div>
+
+    {% include "layouts/footer.html" %}
 
 
 {% endblock %}

@@ -8,7 +8,7 @@ def login_view(request):
         {
             'name': 'Jahid Hasan',
             'role': 'Cleaning Expert',
-            'price': '৳500',
+            'price': '500',
             'rating': '4.8 (120 reviews)',
             'location': 'Dhaka',
             'photo': {'url': '/static/images/jihad.jpg'}
@@ -16,7 +16,7 @@ def login_view(request):
         {
             'name': 'Kawser Ahmed',
             'role': 'Plumber',
-            'price': '৳600',
+            'price': '600',
             'rating': '4.9 (95 reviews)',
             'location': 'Chittagong',
             'photo': {'url': '/static/images/kawser.jpg'}
@@ -24,7 +24,7 @@ def login_view(request):
         {
             'name': 'Sanaullah Khan',
             'role': 'Electrician',
-            'price': '৳700',
+            'price': '700',
             'rating': '4.7 (80 reviews)',
             'location': 'Sylhet',
             'photo': {'url': '/static/images/sanaullah.jpg'}
@@ -32,7 +32,7 @@ def login_view(request):
         {
             'name': 'Rahman Ali',
             'role': 'Carpenter',
-            'price': '৳550',
+            'price': '550',
             'rating': '4.6 (110 reviews)',
             'location': 'Dhaka',
             'photo': {'url': '/static/images/jihad.jpg'}
