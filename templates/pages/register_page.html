@@ -1,0 +1,107 @@
+{% extends "base/login_sign_up_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Register to Skill-হাট {% endblock %}
+
+{% block left %}
+<div class="col-md-6 p-5 d-flex align-items-center">
+  <div class="w-100" style="max-width: 400px; margin: 0 auto;">
+    <h4 class="mb-4 text-center">Register to Skill-হাট</h4>
+    
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <form method="POST">
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-user text-muted"></i></span>
+          <input type="text" class="form-control" name="full_name" placeholder="Full Name" required>
+        </div>
+        {% if form.full_name.errors %}
+          <small class="text-danger d-block mt-1">{{ form.full_name.errors.0 }}</small>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-envelope text-muted"></i></span>
+          <input type="email" class="form-control" name="email" placeholder="Email address" required>
+        </div>
+        {% if form.email.errors %}
+          <small class="text-danger d-block mt-1">{{ form.email.errors.0 }}</small>
+        {% endif %}
+      </div>
+      
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-lock text-muted"></i></span>
+          <input type="password" class="form-control" name="password1" placeholder="Password" required>
+          <span class="input-group-text bg-white"><i class="fas fa-eye text-muted"></i></span>
+        </div>
+        {% if form.password1.errors %}
+          <small class="text-danger d-block mt-1">{{ form.password1.errors.0 }}</small>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-lock text-muted"></i></span>
+          <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
+          <span class="input-group-text bg-white"><i class="fas fa-eye text-muted"></i></span>
+        </div>
+        {% if form.password2.errors %}
+          <small class="text-danger d-block mt-1">{{ form.password2.errors.0 }}</small>
+        {% endif %}
+      </div>
+      
+      <div class="mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agreeTerms" name="agree_terms" required>
+          <label class="form-check-label small" for="agreeTerms">
+            I agree to the terms and conditions
+          </label>
+        </div>
+        {% if form.agree_terms.errors %}
+          <small class="text-danger d-block mt-1">{{ form.agree_terms.errors.0 }}</small>
+        {% endif %}
+      </div>
+      
+      <button type="submit" class="btn btn-danger w-100 mb-3">REGISTER</button>
+      
+      <div class="text-center">
+        <button type="button" class="btn btn-outline-secondary me-2">
+          <i class="fab fa-google"></i>
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+      
+{% endblock %}
+
+{% block right %}
+
+  <div class="col-md-6 p-0 ">
+    <div class="h-100 position-relative" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <img src="{% static 'images/cleaner.png' %}" alt="Worker" class="img-fluid h-100 w-100" style="object-fit: cover; opacity: 0.9;">
+    </div>
+  </div>
+      
+</div>
+</div>
+
+{% endblock %}
