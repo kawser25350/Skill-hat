@@ -1,0 +1,155 @@
+{% extends "base/bast.html" %}
+{% load static %}
+
+{% block title %}{{ worker.name }} - Skill-হাট{% endblock %}
+
+{% block main %}
+
+{% include "layouts/nologin_header.html" %}
+
+<div class="container py-5">
+  
+  <!-- Profile Header -->
+  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+    <div class="row">
+      <div class="col-md-3 mb-4 mb-md-0">
+        <img src="{{ worker.photo }}" 
+             alt="{{ worker.name }}" 
+             class="img-fluid rounded-3" 
+             style="width: 100%; object-fit: cover; aspect-ratio: 1;">
+      </div>
+      
+      <div class="col-md-9">
+        <h2 class="text-dark mb-1" style="font-size: 2rem; font-weight: 700;">{{ worker.name }}</h2>
+        <p class="text-muted mb-3" style="font-size: 1.1rem;">{{ worker.role }}</p>
+        
+        <div class="d-flex align-items-center gap-4 mb-4">
+          <div>
+            <span style="font-size: 0.9rem; color: #666;">Rating</span>
+            <p class="mb-0 text-dark fw-bold">{{ worker.rating }} ★</p>
+          </div>
+          <div>
+            <span style="font-size: 0.9rem; color: #666;">Hourly Rate</span>
+            <p class="mb-0 text-dark fw-bold">৳{{ worker.price }}/hour</p>
+          </div>
+          <div>
+            <span style="font-size: 0.9rem; color: #666;">Location</span>
+            <p class="mb-0 text-dark fw-bold">{{ worker.location }}</p>
+          </div>
+          <div>
+            <span style="font-size: 0.9rem; color: #666;">Experience</span>
+            <p class="mb-0 text-dark fw-bold">{{ worker.experience }} years</p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3">
+          <button class="btn" style="background-color: #000; color: white; padding: 0.8rem 2rem; font-weight: 500;">
+            Hire Now
+          </button>
+          <button class="btn" style="border: 1px solid #ddd; color: #000; padding: 0.8rem 2rem; font-weight: 500;">
+            Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="row g-5">
+    
+    <!-- Left Column - Description & Skills -->
+    <div class="col-lg-7">
+      
+      <!-- Description Section -->
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+        <h4 class="text-dark mb-4" style="font-weight: 600;">About Me</h4>
+        <p class="text-muted" style="line-height: 1.8; font-size: 0.95rem;">
+          {{ worker.description }}
+        </p>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+        <h4 class="text-dark mb-4" style="font-weight: 600;">Skills</h4>
+        <div class="d-flex flex-wrap gap-2">
+          {% for skill in worker.skills %}
+          <span class="badge" style="background-color: #f0f0f0; color: #333; padding: 0.6rem 1rem; font-size: 0.9rem;">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Availability Section -->
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+        <h4 class="text-dark mb-4" style="font-weight: 600;">Availability</h4>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.3rem;">Response Time</p>
+            <p class="text-dark fw-bold mb-0">{{ worker.response_time }}</p>
+          </div>
+          <div class="col-sm-6">
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.3rem;">Jobs Completed</p>
+            <p class="text-dark fw-bold mb-0">{{ worker.jobs_completed }}+</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column - Services & Works -->
+    <div class="col-lg-5">
+      
+      <!-- Featured Services -->
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+        <h4 class="text-dark mb-4" style="font-weight: 600;">Featured Services</h4>
+        <div class="row g-3">
+          {% for service in worker.featured_services %}
+          <div class="col-6">
+            <div class="rounded-2 overflow-hidden" style="aspect-ratio: 1;">
+              <img src="{{ service.image }}" alt="{{ service.name }}" class="w-100 h-100" style="object-fit: cover;">
+            </div>
+            <p class="text-dark mt-2 mb-0" style="font-size: 0.9rem; font-weight: 500;">{{ service.name }}</p>
+            <p class="text-muted" style="font-size: 0.85rem;">৳{{ service.price }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Rating Summary -->
+      <div class="bg-white rounded-3 p-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+        <h4 class="text-dark mb-4" style="font-weight: 600;">Client Reviews</h4>
+        <div class="mb-3">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="text-dark fw-bold">5.0 ★</span>
+            <div class="progress flex-grow-1" style="height: 8px;">
+              <div class="progress-bar" style="width: 60%; background-color: #000;"></div>
+            </div>
+            <small class="text-muted">{{ worker.review_count }}</small>
+          </div>
+          <small class="text-muted">Based on {{ worker.review_count }} client reviews</small>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Recent Works -->
+  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+    <h4 class="text-dark mb-4" style="font-weight: 600;">Recent Works</h4>
+    <div class="row g-4">
+      {% for work in worker.recent_works %}
+      <div class="col-md-4">
+        <div class="rounded-2 overflow-hidden mb-3" style="aspect-ratio: 1;">
+          <img src="{{ work.image }}" alt="{{ work.title }}" class="w-100 h-100" style="object-fit: cover;">
+        </div>
+        <p class="text-dark mb-1" style="font-size: 0.9rem; font-weight: 500;">{{ work.title }}</p>
+        <p class="text-muted" style="font-size: 0.85rem;">{{ work.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

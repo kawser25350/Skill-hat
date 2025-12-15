@@ -1,9 +1,10 @@
 {% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow  rounded-bottom-3" style="background-color: #db1818;" >
                 <div class="container mt-3 rounded-bottom-3" s>
                     
                     <!-- Logo -->
-                    <a class="navbar-brand d-flex align-items-center " href="#">
+                    <a class="navbar-brand d-flex align-items-center " href="{% url 'home' %}">
                     <span class="fw-semibold me-1">
                         <img src="{% static 'images/logo.png' %}" alt="Skill-hat logo" style="width:40px; height:auto; display:block;" loading="lazy">
                     </span>
@@ -17,12 +18,12 @@
                             
 
                             <li class="nav-item ">
-                                <a href="#" class="btn  fw-semibold rounded-1 " style="background-color:#221010; color: white;   ">REGISTER</a>
+                                <a href="{% url 'register' %}" class="btn  fw-semibold rounded-1 " style="background-color:#221010; color: white;   ">REGISTER</a>
                             </li>
 
 
                             <li class="nav-item">
-                                <a href="#" class="btn fw-semibold rounded-1 " style="background-color:#E37C7C; color: white;    ">SIGN IN</a>
+                                <a href="{% url 'login' %}" class="btn fw-semibold rounded-1 " style="background-color:#E37C7C; color: white;    ">SIGN IN</a>
                             </li>
 
 
