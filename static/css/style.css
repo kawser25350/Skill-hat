@@ -111,111 +111,550 @@
     font-size: 16px;
 }
 
-#mapContainer {
-    animation: slideUp 0.6s ease-out;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none !important;
-    z-index: 1050;
-    justify-content: center;
+/* Map overlay removed */
+
+.map-header {
+    background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    z-index: 1002;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-#mapContainer.show {
-    display: flex !important;
+.map-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.map-modal {
-    position: relative;
+.map-title i {
+    margin-right: 8px;
+}
+
+.map-search-container {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 800px;
-    height: 500px;
-    overflow: hidden;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 1001;
 }
 
-#map {
-    width: 100% !important;
-    height: 100% !important;
+.map-search-wrapper {
+    position: relative;
+    width: 100%;
 }
 
-.map-close-btn {
+.map-search-icon {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background-color: white;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 16px;
+}
+
+.map-search-input {
+    width: 100%;
+    padding: 14px 50px 14px 48px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.map-search-input:focus {
+    border-color: #E37C7C;
+    box-shadow: 0 0 0 3px rgba(227, 124, 124, 0.1);
+}
+
+.current-location-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #E37C7C;
+    color: white;
     border: none;
-    border-radius: 50%;
     width: 40px;
     height: 40px;
-    font-size: 24px;
+    border-radius: 8px;
     cursor: pointer;
-    z-index: 1051;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.map-close-btn:hover {
-    background-color: #f0f0f0;
-    transform: rotate(90deg);
+.current-location-btn:hover {
+    background: #C65D5D;
+    transform: translateY(-50%) scale(1.05);
 }
 
-@media (max-width: 767px) {
-        .carousel-inner .carousel-item > div {
-            display: none;
-        }
-        .carousel-inner .carousel-item > div:first-child {
-            display: block;
-        }
-    }
+.map-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1003;
+    display: none;
+    margin-top: 4px;
+}
 
-    .carousel-inner .carousel-item.active,
-    .carousel-inner .carousel-item-next,
-    .carousel-inner .carousel-item-prev {
-        display: flex;
-       
-    }
+.map-suggestion-item {
+    padding: 14px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
 
-    @media (min-width: 768px) {
+.map-suggestion-item:hover {
+    background: #f9fafb;
+}
 
-        .carousel-inner .carousel-item-end.active,
-        .carousel-inner .carousel-item-next {
-            transform: translateX(25%);
-        }
+.map-suggestion-item:last-child {
+    border-bottom: none;
+}
 
-        .carousel-inner .carousel-item-start.active, 
-        .carousel-inner .carousel-item-prev {
-            transform: translateX(-25%);
-        }
-    }
+.map-suggestion-icon {
+    color: #E37C7C;
+    font-size: 16px;
+    flex-shrink: 0;
+}
 
-    
-    .card-img img { 
-        width: 80% !important; 
-        height: 350px !important; 
-        object-fit: cover; 
-        border-radius: 20px;
-    }
-    
-    .card {
-        border: none !important;
-        background: transparent !important;
-        margin: 0 10px;
-    }
+.map-suggestion-text {
+    flex: 1;
+    overflow: hidden;
+}
 
-    .carousel-inner .carousel-item-end,
-    .carousel-inner .carousel-item-start { 
-        transform: translateX(0);
+.map-suggestion-name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.map-suggestion-address {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Map UI removed */
+
+/* Google Maps Autocomplete Styling */
+.pac-container {
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 4px;
+    background-color: white;
+    z-index: 1060 !important;
+    border: 1px solid #e0e0e0;
+}
+
+.pac-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.pac-item:first-child {
+    border-top: none;
+}
+
+.pac-item:last-child {
+    border-bottom: none;
+}
+
+.pac-item:hover {
+    background-color: #f5f5f5;
+}
+
+.pac-item-selected {
+    background-color: #e8f0fe;
+    color: #1f2937;
+}
+
+.pac-item-query {
+    font-weight: 600;
+}
+
+.pac-icon-marker {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23E37C7C"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>') no-repeat center;
+    background-size: contain;
+}
+
+/* FREE NOMINATIM AUTOCOMPLETE STYLING */
+.location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1060;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #f5f5f5;
+}
+
+.suggestion-icon {
+    color: #E37C7C;
+    margin-top: 3px;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.suggestion-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.suggestion-name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.suggestion-address {
+    font-size: 12px;
+    color: #6b7280;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Location Input Focus Enhancement */
+#locationInput {
+    position: relative;
+    padding-left: 40px !important;
+}
+
+#locationInput:focus {
+    outline: none !important;
+    background-color: #ffffff !important;
+    border-bottom: 2px solid #E37C7C !important;
+    box-shadow: 0 2px 8px rgba(227, 124, 124, 0.1) !important;
+}
+
+#locationInput:focus::placeholder {
+    color: #ccc;
+}
+
+/* Location icon styling - visible icon in input */
+.location-input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #E37C7C;
+    pointer-events: none;
+    font-size: 16px;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+/* Map selection button */
+.map-select-btn {
+    position: absolute;
+    background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 15px rgba(227, 124, 124, 0.4);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.map-select-btn:hover {
+    background: linear-gradient(135deg, #C65D5D 0%, #E37C7C 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(227, 124, 124, 0.5);
+}
+
+.map-select-btn i {
+    margin-right: 5px;
+}
+
+/* Hover marker styling */
+.hover-marker-icon {
+    background: transparent;
+    border: none;
+    pointer-events: none;
+}
+
+.leaflet-container {
+    cursor: crosshair !important;
+}
+
+.leaflet-interactive {
+    cursor: crosshair !important;
+}
+
+.leaflet-grab {
+    cursor: crosshair !important;
+}
+
+.leaflet-dragging .leaflet-grab {
+    cursor: move !important;
+}
+
+
+/* Location icon styling - dynamic icon added by JS */
+.location-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #E37C7C;
+    pointer-events: none;
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+/* Map Container Enhancements */
+.map-modal {
+    animation: mapSlideIn 0.3s ease-out;
+}
+
+@keyframes mapSlideIn {
+    from {
+        transform: scale(0.95) translateY(20px);
+        opacity: 0;
     }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== CAROUSEL CATEGORY STYLES (NO CONFLICT WITH WORKER CARDS) ===== */
+
+/* Carousel container with fixed height */
+#recipeCarousel {
+    height: 280px !important;
+    overflow: hidden !important;
+}
+
+#recipeCarousel .carousel-inner {
+    height: 100% !important;
+}
+
+#recipeCarousel .carousel-item {
+    display: flex !important;
+    gap: 8px !important;
+    padding: 20px 10px !important;
+    height: 280px !important;
+    align-items: center !important;
+}
+
+/* Category card styling for carousel */
+.category-card {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 180px !important;
+    height: 240px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.category-img-wrapper {
+    width: 170px !important;
+    height: 220px !important;
+    min-width: 170px !important;
+    min-height: 220px !important;
+    max-width: 170px !important;
+    max-height: 220px !important;
+    display: block !important;
+    overflow: hidden !important;
+    margin: 0 auto !important;
+    border-radius: 14px !important;
+    background: #f5f5f5 !important;
+    position: relative !important;
+}
+
+.category-img {
+    width: 170px !important;
+    height: 220px !important;
+    min-width: 170px !important;
+    min-height: 220px !important;
+    max-width: 170px !important;
+    max-height: 220px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 14px !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15) !important;
+    transition: transform 0.3s ease !important;
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+
+.category-img:hover {
+    transform: scale(1.03) !important;
+}
+
+#recipeCarousel .carousel-inner .carousel-item.active,
+#recipeCarousel .carousel-inner .carousel-item-next,
+#recipeCarousel .carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+#recipeCarousel .carousel-col {
+    flex: 0 0 20%;
+    max-width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 1199.98px) {
+    #recipeCarousel .carousel-col {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #recipeCarousel .carousel-col {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    #recipeCarousel .carousel-inner .carousel-item > div {
+        display: none;
+    }
+    #recipeCarousel .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+    #recipeCarousel .carousel-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    #recipeCarousel {
+        height: 300px !important;
+    }
+    #recipeCarousel .carousel-item {
+        height: 300px !important;
+    }
+    .category-card {
+        max-width: 200px !important;
+        height: 260px !important;
+    }
+    .category-img-wrapper {
+        width: 180px !important;
+        height: 240px !important;
+        min-width: 180px !important;
+        min-height: 240px !important;
+        max-width: 180px !important;
+        max-height: 240px !important;
+    }
+    .category-img {
+        width: 180px !important;
+        height: 240px !important;
+        min-width: 180px !important;
+        min-height: 240px !important;
+        max-width: 180px !important;
+        max-height: 240px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #recipeCarousel .carousel-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    #recipeCarousel {
+        height: 280px !important;
+    }
+    #recipeCarousel .carousel-item {
+        height: 280px !important;
+    }
+    .category-card {
+        max-width: 180px !important;
+        height: 240px !important;
+    }
+    .category-img-wrapper {
+        width: 160px !important;
+        height: 220px !important;
+        min-width: 160px !important;
+        min-height: 220px !important;
+        max-width: 160px !important;
+        max-height: 220px !important;
+    }
+    .category-img {
+        width: 160px !important;
+        height: 220px !important;
+        min-width: 160px !important;
+        min-height: 220px !important;
+        max-width: 160px !important;
+        max-height: 220px !important;
+    }
+}
+
+#recipeCarousel .carousel-inner .carousel-item-end.active,
+#recipeCarousel .carousel-inner .carousel-item-next {
+    transform: translateX(20%);
+}
+
+#recipeCarousel .carousel-inner .carousel-item-start.active,
+#recipeCarousel .carousel-inner .carousel-item-prev {
+    transform: translateX(-20%);
+}
+
+#recipeCarousel .carousel-inner .carousel-item-end,
+#recipeCarousel .carousel-inner .carousel-item-start {
+    transform: translateX(0);
+}
 
     
 
@@ -239,7 +678,7 @@
 /* Worker Card Styling - Redesigned */
 .worker-card {
     width: 18rem;              /* keep desired card size */
-    margin: 1rem;
+    margin: 0.25rem;
     display: inline-block;
     vertical-align: top;
 }
