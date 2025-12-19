@@ -158,7 +158,7 @@ You are free to use, modify, and distribute this project with proper attribution
 
 For inquiries, suggestions, or collaborations:
 
-**Email:** kawser25350@gmail.com  
+**Email:** mkshuvo25350@gmail.com
 **GitHub:** [kawser25350](https://github.com/kawser25350)
 
 ---

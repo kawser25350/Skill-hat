@@ -1,0 +1,178 @@
+{% extends "base/bast.html" %}
+
+{% load static %}
+
+{% block title %}Search Results - Skill Hat{% endblock %}
+
+{% block main %}
+
+{% if name == 'kawser' %}
+   {% include "layouts/nologin_header.html" %}
+{% else %}
+   <h1>no user</h1>
+{% endif %}
+
+<div class="container-fluid mt-4 py-4">
+    <div class="container">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="fw-bold mb-2">Search Results</h1>
+                <p class="text-muted">Found <strong>{{ total_results }}</strong> {% if category %}{{ category }}{% endif %} expert{{ total_results|pluralize }} {% if location %}in {{ location }}{% endif %}</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Filter Sidebar -->
+            <div class="col-lg-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light border-bottom fw-bold">
+                        <i class="fas fa-filter me-2"></i> Filters
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" id="filterForm">
+                            <!-- Category Filter -->
+                            <div class="mb-4">
+                                <label class="fw-bold mb-2 d-block">Category</label>
+                                <select class="form-select form-select-sm" name="category">
+                                    <option value="">All Categories</option>
+                                    <option value="cleaning" {% if category == 'cleaning' %}selected{% endif %}>Cleaning</option>
+                                    <option value="plumbing" {% if category == 'plumbing' %}selected{% endif %}>Plumbing</option>
+                                    <option value="electrical" {% if category == 'electrical' %}selected{% endif %}>Electrical</option>
+                                    <option value="carpentry" {% if category == 'carpentry' %}selected{% endif %}>Carpentry</option>
+                                    <option value="painting" {% if category == 'painting' %}selected{% endif %}>Painting</option>
+                                    <option value="gardening" {% if category == 'gardening' %}selected{% endif %}>Gardening</option>
+                                </select>
+                            </div>
+
+                            <!-- Location Filter -->
+                            <div class="mb-4">
+                                <label class="fw-bold mb-2 d-block">Location</label>
+                                <input type="text" class="form-control form-control-sm" name="location" placeholder="Enter city or area" value="{{ location }}">
+                            </div>
+
+                            <!-- Price Range Filter -->
+                            <div class="mb-4">
+                                <label class="fw-bold mb-2 d-block">Price Range (BDT)</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control form-control-sm" name="min_price" placeholder="Min" value="{{ min_price }}">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" class="form-control form-control-sm" name="max_price" placeholder="Max" value="{{ max_price }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rating Filter -->
+                            <div class="mb-4">
+                                <label class="fw-bold mb-2 d-block">Minimum Rating</label>
+                                <select class="form-select form-select-sm" name="rating">
+                                    <option value="">All Ratings</option>
+                                    <option value="4.5" {% if rating == '4.5' %}selected{% endif %}>4.5+ ⭐</option>
+                                    <option value="4.0" {% if rating == '4.0' %}selected{% endif %}>4.0+ ⭐</option>
+                                    <option value="3.5" {% if rating == '3.5' %}selected{% endif %}>3.5+ ⭐</option>
+                                    <option value="3.0" {% if rating == '3.0' %}selected{% endif %}>3.0+ ⭐</option>
+                                </select>
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="mb-4">
+                                <label class="fw-bold mb-2 d-block">Sort By</label>
+                                <select class="form-select form-select-sm" name="sort">
+                                    <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>Relevance</option>
+                                    <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                                    <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                                    <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Top Rated</option>
+                                </select>
+                            </div>
+
+                            <!-- Apply Filters Button -->
+                            <button type="submit" class="btn btn-sm w-100 mb-2" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%); color: white; border: none;">
+                                <i class="fas fa-check me-1"></i> Apply Filters
+                            </button>
+                            <a href="{% url 'search_results' %}" class="btn btn-sm btn-outline-secondary w-100">
+                                <i class="fas fa-redo me-1"></i> Reset
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="col-lg-9">
+                {% if workers %}
+                    <div class="row g-4">
+                        {% for worker in workers %}
+                            <div class="col-12 col-sm-6 col-md-4 d-flex">
+                                <div class="card border-0 shadow-sm w-100 h-100 overflow-hidden worker-result-card" style="transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: white;">
+                                    <!-- Worker Image -->
+                                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                                        <img src="{{ worker.photo.url }}" alt="{{ worker.name }}" class="w-100 h-100 object-fit-cover" style="transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                                        <div class="position-absolute top-0 start-0 m-2">
+                                            <span class="badge" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%);">
+                                                {{ worker.category|title }}
+                                            </span>
+                                        </div>
+                                        <div class="position-absolute top-0 end-0 m-2">
+                                            <span class="badge bg-warning text-dark">
+                                                <i class="fas fa-star"></i> {{ worker.rating }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Worker Info -->
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold mb-1">{{ worker.name }}</h5>
+                                        <p class="text-muted small mb-2">{{ worker.role }}</p>
+                                        
+                                        <div class="mb-3">
+                                            <p class="small text-secondary mb-1">
+                                                <i class="fas fa-map-marker-alt me-1 text-danger"></i> {{ worker.location }}
+                                            </p>
+                                            <p class="small text-secondary">
+                                                <i class="fas fa-comment me-1 text-info"></i> {{ worker.reviews }} reviews
+                                            </p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="fw-bold fs-5">৳ {{ worker.price }}/hour</span>
+                                        </div>
+
+                                        <a href="{% url 'profile' worker.id %}" class="btn btn-sm w-100" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%); color: white; border: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.background='linear-gradient(135deg, #221010 0%, #000 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                            <i class="fas fa-eye me-1"></i> View Profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="fas fa-search me-2"></i>
+                        <div>
+                            <strong>No results found.</strong> Try adjusting your filters or search terms.
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .worker-result-card {
+        transition: all 0.3s ease;
+    }
+
+    .worker-result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+</style>
+
+{% endblock %}

@@ -5,46 +5,78 @@ from django.contrib import messages
 from .forms import LoginForm, RegisterForm
 
 
+# Sample worker data
+ALL_WORKERS = [
+    {
+        'id': 1,
+        'name': 'Jahid Hasan',
+        'role': 'Cleaning Expert',
+        'category': 'cleaning',
+        'price': 500,
+        'rating': 4.8,
+        'reviews': 120,
+        'location': 'Dhaka',
+        'photo': {'url': '/static/images/jihad.jpg'}
+    },
+    {
+        'id': 2,
+        'name': 'Kawser Ahmed',
+        'role': 'Plumber',
+        'category': 'plumbing',
+        'price': 600,
+        'rating': 4.9,
+        'reviews': 95,
+        'location': 'Chittagong',
+        'photo': {'url': '/static/images/kawser.jpg'}
+    },
+    {
+        'id': 3,
+        'name': 'Sanaullah Khan',
+        'role': 'Electrician',
+        'category': 'electrical',
+        'price': 700,
+        'rating': 4.7,
+        'reviews': 80,
+        'location': 'Sylhet',
+        'photo': {'url': '/static/images/sanaullah.jpg'}
+    },
+    {
+        'id': 4,
+        'name': 'Rahman Ali',
+        'role': 'Carpenter',
+        'category': 'carpentry',
+        'price': 550,
+        'rating': 4.6,
+        'reviews': 110,
+        'location': 'Dhaka',
+        'photo': {'url': '/static/images/jihad.jpg'}
+    },
+    {
+        'id': 5,
+        'name': 'Farhan Khan',
+        'role': 'Painter',
+        'category': 'painting',
+        'price': 450,
+        'rating': 4.5,
+        'reviews': 75,
+        'location': 'Dhaka',
+        'photo': {'url': '/static/images/kawser.jpg'}
+    },
+    {
+        'id': 6,
+        'name': 'Amin Hassan',
+        'role': 'Garden Expert',
+        'category': 'gardening',
+        'price': 400,
+        'rating': 4.4,
+        'reviews': 60,
+        'location': 'Khulna',
+        'photo': {'url': '/static/images/sanaullah.jpg'}
+    },
+]
+
 def home(request):
-    # Create default worker data
-    default_workers = [
-        {
-            'id': 1,
-            'name': 'Jahid Hasan',
-            'role': 'Cleaning Expert',
-            'price': '500',
-            'rating': '4.8 (120 reviews)',
-            'location': 'Dhaka',
-            'photo': {'url': '/static/images/jihad.jpg'}
-        },
-        {
-            'id': 2,
-            'name': 'Kawser Ahmed',
-            'role': 'Plumber',
-            'price': '600',
-            'rating': '4.9 (95 reviews)',
-            'location': 'Chittagong',
-            'photo': {'url': '/static/images/kawser.jpg'}
-        },
-        {
-            'id': 3,
-            'name': 'Sanaullah Khan',
-            'role': 'Electrician',
-            'price': '700',
-            'rating': '4.7 (80 reviews)',
-            'location': 'Sylhet',
-            'photo': {'url': '/static/images/sanaullah.jpg'}
-        },
-        {
-            'id': 4,
-            'name': 'Rahman Ali',
-            'role': 'Carpenter',
-            'price': '550',
-            'rating': '4.6 (110 reviews)',
-            'location': 'Dhaka',
-            'photo': {'url': '/static/images/jihad.jpg'}
-        }
-    ]
+    default_workers = ALL_WORKERS
     
     data = {
         'name': 'kawser',
@@ -53,6 +85,66 @@ def home(request):
          'default_workers': default_workers,
     }
     return render(request, 'pages/homepage.html', data)
+
+
+def search_results(request):
+    category = request.GET.get('category', '').lower()
+    location = request.GET.get('location', '').lower()
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    rating = request.GET.get('rating', '')
+    sort_by = request.GET.get('sort', 'relevance')
+    
+    # Filter workers
+    filtered_workers = ALL_WORKERS.copy()
+    
+    if category and category != 'choose category':
+        filtered_workers = [w for w in filtered_workers if w['category'] == category]
+    
+    if location:
+        filtered_workers = [w for w in filtered_workers if location in w['location'].lower()]
+    
+    if min_price:
+        try:
+            min_p = int(min_price)
+            filtered_workers = [w for w in filtered_workers if w['price'] >= min_p]
+        except ValueError:
+            pass
+    
+    if max_price:
+        try:
+            max_p = int(max_price)
+            filtered_workers = [w for w in filtered_workers if w['price'] <= max_p]
+        except ValueError:
+            pass
+    
+    if rating:
+        try:
+            min_rating = float(rating)
+            filtered_workers = [w for w in filtered_workers if w['rating'] >= min_rating]
+        except ValueError:
+            pass
+    
+    # Sort results
+    if sort_by == 'price_low':
+        filtered_workers.sort(key=lambda x: x['price'])
+    elif sort_by == 'price_high':
+        filtered_workers.sort(key=lambda x: x['price'], reverse=True)
+    elif sort_by == 'rating':
+        filtered_workers.sort(key=lambda x: x['rating'], reverse=True)
+    
+    data = {
+        'name': 'kawser',
+        'workers': filtered_workers,
+        'total_results': len(filtered_workers),
+        'category': category if category else '',
+        'location': location if location else '',
+        'min_price': min_price if min_price else '',
+        'max_price': max_price if max_price else '',
+        'rating': rating if rating else '',
+        'sort_by': sort_by,
+    }
+    return render(request, 'pages/search_results.html', data)
 
 
 

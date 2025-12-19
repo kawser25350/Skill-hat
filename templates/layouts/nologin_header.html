@@ -4,8 +4,8 @@
                 <div class="container mt-3 rounded-bottom-3" s>
                     
                     <!-- Logo -->
-                    <a class="navbar-brand d-flex align-items-center " href="{% url 'home' %}">
-                    <span class="fw-semibold me-1">
+                    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.05)'; this.style.opacity='0.8';" onmouseout="this.style.transform='scale(1)'; this.style.opacity='1';">
+                    <span class="fw-semibold me-1" style="transition: transform 0.3s ease;" onmouseover="this.style.transform='rotate(-10deg)';" onmouseout="this.style.transform='rotate(0deg)';">
                         <img src="{% static 'images/logo.png' %}" alt="Skill-hat logo" style="width:40px; height:auto; display:block;" loading="lazy">
                     </span>
                        <span class="fw-bold" style="color: #f80d0d;  font-family:'Roboto Flex','sans-serif';  ">Skill-</span>
@@ -18,12 +18,12 @@
                             
 
                             <li class="nav-item ">
-                                <a href="{% url 'register' %}" class="btn  fw-semibold rounded-1 " style="background-color:#221010; color: white;   ">REGISTER</a>
+                                <a href="{% url 'register' %}" class="btn  fw-semibold rounded-1" style="background-color:#221010; color: white; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none;" onmouseover="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(227, 124, 124, 0.4)';" onmouseout="this.style.backgroundColor='#221010'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">REGISTER</a>
                             </li>
 
 
                             <li class="nav-item">
-                                <a href="{% url 'login' %}" class="btn fw-semibold rounded-1 " style="background-color:#E37C7C; color: white;    ">SIGN IN</a>
+                                <a href="{% url 'login' %}" class="btn fw-semibold rounded-1" style="background-color:#E37C7C; color: white; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none;" onmouseover="this.style.backgroundColor='#221010'; this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(34, 16, 16, 0.4)';" onmouseout="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">SIGN IN</a>
                             </li>
 
 

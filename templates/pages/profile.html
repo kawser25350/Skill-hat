@@ -10,13 +10,15 @@
 <div class="container py-5">
   
   <!-- Profile Header -->
-  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
     <div class="row">
       <div class="col-md-3 mb-4 mb-md-0">
         <img src="{{ worker.photo }}" 
              alt="{{ worker.name }}" 
              class="img-fluid rounded-3" 
-             style="width: 100%; object-fit: cover; aspect-ratio: 1;">
+             style="width: 100%; object-fit: cover; aspect-ratio: 1; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(0,0,0,0.1);" 
+             onmouseover="this.style.transform='scale(1.05) rotate(2deg)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.2)';" 
+             onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';">
       </div>
       
       <div class="col-md-9">
@@ -43,10 +45,10 @@
         </div>
 
         <div class="d-flex gap-3">
-          <button class="btn" style="background-color: #000; color: white; padding: 0.8rem 2rem; font-weight: 500;">
+          <button class="btn" style="background-color: #000; color: white; padding: 0.8rem 2rem; font-weight: 500; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none;" onmouseover="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.4)';" onmouseout="this.style.backgroundColor='#000'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
             Hire Now
           </button>
-          <button class="btn" style="border: 1px solid #ddd; color: #000; padding: 0.8rem 2rem; font-weight: 500;">
+          <button class="btn" style="border: 1px solid #ddd; color: #000; padding: 0.8rem 2rem; font-weight: 500; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background-color: white;" onmouseover="this.style.backgroundColor='#000'; this.style.color='white'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0, 0, 0, 0.15)';" onmouseout="this.style.backgroundColor='white'; this.style.color='#000'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
             Message
           </button>
         </div>
@@ -61,7 +63,7 @@
     <div class="col-lg-7">
       
       <!-- Description Section -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
         <h4 class="text-dark mb-4" style="font-weight: 600;">About Me</h4>
         <p class="text-muted" style="line-height: 1.8; font-size: 0.95rem;">
           {{ worker.description }}
@@ -69,17 +71,17 @@
       </div>
 
       <!-- Skills Section -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
         <h4 class="text-dark mb-4" style="font-weight: 600;">Skills</h4>
         <div class="d-flex flex-wrap gap-2">
           {% for skill in worker.skills %}
-          <span class="badge" style="background-color: #f0f0f0; color: #333; padding: 0.6rem 1rem; font-size: 0.9rem;">{{ skill }}</span>
+          <span class="badge" style="background-color: #f0f0f0; color: #333; padding: 0.6rem 1rem; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.backgroundColor='#E37C7C'; this.style.color='white'; this.style.transform='translateY(-2px) scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.color='#333'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">{{ skill }}</span>
           {% endfor %}
         </div>
       </div>
 
       <!-- Availability Section -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
         <h4 class="text-dark mb-4" style="font-weight: 600;">Availability</h4>
         <div class="row g-3">
           <div class="col-sm-6">
@@ -99,13 +101,13 @@
     <div class="col-lg-5">
       
       <!-- Featured Services -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
         <h4 class="text-dark mb-4" style="font-weight: 600;">Featured Services</h4>
         <div class="row g-3">
           {% for service in worker.featured_services %}
-          <div class="col-6">
-            <div class="rounded-2 overflow-hidden" style="aspect-ratio: 1;">
-              <img src="{{ service.image }}" alt="{{ service.name }}" class="w-100 h-100" style="object-fit: cover;">
+          <div class="col-6" style="transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-6px)';" onmouseout="this.style.transform='translateY(0)';">
+            <div class="rounded-2 overflow-hidden" style="aspect-ratio: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+              <img src="{{ service.image }}" alt="{{ service.name }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.4s ease;" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">
             </div>
             <p class="text-dark mt-2 mb-0" style="font-size: 0.9rem; font-weight: 500;">{{ service.name }}</p>
             <p class="text-muted" style="font-size: 0.85rem;">৳{{ service.price }}</p>
@@ -115,7 +117,7 @@
       </div>
 
       <!-- Rating Summary -->
-      <div class="bg-white rounded-3 p-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+      <div class="bg-white rounded-3 p-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
         <h4 class="text-dark mb-4" style="font-weight: 600;">Client Reviews</h4>
         <div class="mb-3">
           <div class="d-flex align-items-center gap-2 mb-2">
@@ -134,13 +136,13 @@
   </div>
 
   <!-- Recent Works -->
-  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
+  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
     <h4 class="text-dark mb-4" style="font-weight: 600;">Recent Works</h4>
     <div class="row g-4">
       {% for work in worker.recent_works %}
-      <div class="col-md-4">
-        <div class="rounded-2 overflow-hidden mb-3" style="aspect-ratio: 1;">
-          <img src="{{ work.image }}" alt="{{ work.title }}" class="w-100 h-100" style="object-fit: cover;">
+      <div class="col-md-4" style="transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)';" onmouseout="this.style.transform='translateY(0)';">
+        <div class="rounded-2 overflow-hidden mb-3" style="aspect-ratio: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+          <img src="{{ work.image }}" alt="{{ work.title }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.1) rotate(2deg)';" onmouseout="this.style.transform='scale(1) rotate(0deg)';">
         </div>
         <p class="text-dark mb-1" style="font-size: 0.9rem; font-weight: 500;">{{ work.title }}</p>
         <p class="text-muted" style="font-size: 0.85rem;">{{ work.description }}</p>
