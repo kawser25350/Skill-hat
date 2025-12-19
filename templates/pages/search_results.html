@@ -105,10 +105,10 @@
                     <div class="row g-4">
                         {% for worker in workers %}
                             <div class="col-12 col-sm-6 col-md-4 d-flex">
-                                <div class="card border-0 shadow-sm w-100 h-100 overflow-hidden worker-result-card">
+                                <div class="card border-0 shadow-sm w-100 h-100 overflow-hidden worker-result-card" style="transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: white;">
                                     <!-- Worker Image -->
                                     <div class="position-relative overflow-hidden" style="height: 250px;">
-                                        <img src="{{ worker.photo.url }}" alt="{{ worker.name }}" class="w-100 h-100 object-fit-cover">
+                                        <img src="{{ worker.photo.url }}" alt="{{ worker.name }}" class="w-100 h-100 object-fit-cover" style="transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
                                         <div class="position-absolute top-0 start-0 m-2">
                                             <span class="badge" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%);">
                                                 {{ worker.category|title }}
@@ -139,7 +139,7 @@
                                             <span class="fw-bold fs-5">৳ {{ worker.price }}/hour</span>
                                         </div>
 
-                                        <a href="{% url 'profile' worker.id %}" class="btn btn-sm w-100" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%); color: white; border: none;">
+                                        <a href="{% url 'profile' worker.id %}" class="btn btn-sm w-100" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%); color: white; border: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.background='linear-gradient(135deg, #221010 0%, #000 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                             <i class="fas fa-eye me-1"></i> View Profile
                                         </a>
                                     </div>

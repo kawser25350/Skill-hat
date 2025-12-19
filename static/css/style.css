@@ -470,192 +470,6 @@
         opacity: 1;
     }
 }
-
-/* ===== CAROUSEL CATEGORY STYLES (NO CONFLICT WITH WORKER CARDS) ===== */
-
-/* Carousel container with fixed height */
-#recipeCarousel {
-    height: 280px !important;
-    overflow: hidden !important;
-}
-
-#recipeCarousel .carousel-inner {
-    height: 100% !important;
-}
-
-#recipeCarousel .carousel-item {
-    display: flex !important;
-    gap: 8px !important;
-    padding: 20px 10px !important;
-    height: 280px !important;
-    align-items: center !important;
-}
-
-/* Category card styling for carousel */
-.category-card {
-    border: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 auto !important;
-    width: 100% !important;
-    max-width: 180px !important;
-    height: 240px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
-
-.category-img-wrapper {
-    width: 170px !important;
-    height: 220px !important;
-    min-width: 170px !important;
-    min-height: 220px !important;
-    max-width: 170px !important;
-    max-height: 220px !important;
-    display: block !important;
-    overflow: hidden !important;
-    margin: 0 auto !important;
-    border-radius: 14px !important;
-    background: #f5f5f5 !important;
-    position: relative !important;
-}
-
-.category-img {
-    width: 170px !important;
-    height: 220px !important;
-    min-width: 170px !important;
-    min-height: 220px !important;
-    max-width: 170px !important;
-    max-height: 220px !important;
-    object-fit: cover !important;
-    object-position: center !important;
-    border-radius: 14px !important;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15) !important;
-    transition: transform 0.3s ease !important;
-    display: block !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-}
-
-.category-img:hover {
-    transform: scale(1.03) !important;
-}
-
-#recipeCarousel .carousel-inner .carousel-item.active,
-#recipeCarousel .carousel-inner .carousel-item-next,
-#recipeCarousel .carousel-inner .carousel-item-prev {
-    display: flex;
-}
-
-#recipeCarousel .carousel-col {
-    flex: 0 0 20%;
-    max-width: 20%;
-    display: flex;
-    justify-content: center;
-}
-
-@media (max-width: 1199.98px) {
-    #recipeCarousel .carousel-col {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-}
-
-@media (max-width: 991.98px) {
-    #recipeCarousel .carousel-col {
-        flex: 0 0 33.333%;
-        max-width: 33.333%;
-    }
-}
-
-@media (max-width: 767.98px) {
-    #recipeCarousel .carousel-inner .carousel-item > div {
-        display: none;
-    }
-    #recipeCarousel .carousel-inner .carousel-item > div:first-child {
-        display: block;
-    }
-    #recipeCarousel .carousel-col {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-    #recipeCarousel {
-        height: 300px !important;
-    }
-    #recipeCarousel .carousel-item {
-        height: 300px !important;
-    }
-    .category-card {
-        max-width: 200px !important;
-        height: 260px !important;
-    }
-    .category-img-wrapper {
-        width: 180px !important;
-        height: 240px !important;
-        min-width: 180px !important;
-        min-height: 240px !important;
-        max-width: 180px !important;
-        max-height: 240px !important;
-    }
-    .category-img {
-        width: 180px !important;
-        height: 240px !important;
-        min-width: 180px !important;
-        min-height: 240px !important;
-        max-width: 180px !important;
-        max-height: 240px !important;
-    }
-}
-
-@media (max-width: 575.98px) {
-    #recipeCarousel .carousel-col {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    #recipeCarousel {
-        height: 280px !important;
-    }
-    #recipeCarousel .carousel-item {
-        height: 280px !important;
-    }
-    .category-card {
-        max-width: 180px !important;
-        height: 240px !important;
-    }
-    .category-img-wrapper {
-        width: 160px !important;
-        height: 220px !important;
-        min-width: 160px !important;
-        min-height: 220px !important;
-        max-width: 160px !important;
-        max-height: 220px !important;
-    }
-    .category-img {
-        width: 160px !important;
-        height: 220px !important;
-        min-width: 160px !important;
-        min-height: 220px !important;
-        max-width: 160px !important;
-        max-height: 220px !important;
-    }
-}
-
-#recipeCarousel .carousel-inner .carousel-item-end.active,
-#recipeCarousel .carousel-inner .carousel-item-next {
-    transform: translateX(20%);
-}
-
-#recipeCarousel .carousel-inner .carousel-item-start.active,
-#recipeCarousel .carousel-inner .carousel-item-prev {
-    transform: translateX(-20%);
-}
-
-#recipeCarousel .carousel-inner .carousel-item-end,
-#recipeCarousel .carousel-inner .carousel-item-start {
-    transform: translateX(0);
-}
-
     
 
  
@@ -768,12 +582,31 @@
     box-shadow: 0 10px 22px rgba(99,102,241,0.18);
 }
 
+.worker-card {
+    transition: transform 0.3s ease;
+}
+
+.worker-card:hover {
+    transform: scale(1.01);
+}
+
 .worker-card:hover .card-border-wrapper {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 60px rgba(50, 50, 93, 0.14);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(50, 50, 93, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);
     animation-duration: 2.5s;
 }
-.worker-card:hover .card-img-top { transform: scale(1.07); }
+.worker-card:hover .card-img-top { 
+    transform: scale(1.1);
+}
+.worker-card .card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.worker-card:hover .card {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+.worker-card:hover .card {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
 
 .worker-card .card-body { padding-top: 0.75rem; padding-bottom: 0.75rem; }
 

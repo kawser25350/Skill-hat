@@ -1,80 +1,193 @@
 {% load static %}
-<div class="text-center my-3">
-    <div class="row mx-auto my-auto justify-content-center">
-        <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
-            <div class="carousel-inner" role="listbox">
+<style>
+.category-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
 
-                <div class="carousel-item active">
-                    <div class="carousel-col px-2">
-                        <div class="category-card">
-                            <div class="category-img-wrapper">
-                                <img src="{{ image1 }}" class="category-img" alt="Slide 1">
+.category-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(227, 124, 124, 0.3);
+}
+
+.category-card img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-card:hover img {
+    transform: scale(1.15);
+}
+
+.category-label {
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-label {
+    color: #E37C7C;
+    transform: translateY(-2px);
+}
+</style>
+
+<div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" style="padding: 40px 0; max-width: 1400px; margin: 0 auto; background: #ffffff;">
+    <div class="carousel-inner" style="background: #ffffff;">
+        <!-- Slide 1 -->
+        <div class="carousel-item active" style="background: #ffffff;">
+            <div class="d-flex gap-4 px-3 justify-content-center flex-wrap" style="min-height: 450px; background: #ffffff;">
+                <!-- Cleaning -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image1 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Cleaning">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Cleaning</h5>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-                <div class="carousel-item">
-                    <div class="carousel-col px-2">
-                        <div class="category-card">
-                            <div class="category-img-wrapper">
-                                <img src="{{ image2 }}" class="category-img" alt="Slide 2">
+                
+                <!-- Plumbing -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image2 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Plumbing">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Plumbing</h5>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-                <div class="carousel-item">
-                    <div class="carousel-col px-2">
-                        <div class="category-card">
-                            <div class="category-img-wrapper">
-                                <img src="{{ image3 }}" class="category-img" alt="Slide 3">
+                
+                <!-- Electrical -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image3 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Electrical">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Electrical</h5>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-                <div class="carousel-item">
-                    <div class="carousel-col px-2">
-                        <div class="category-card">
-                            <div class="category-img-wrapper">
-                                <img src="{{ image4 }}" class="category-img" alt="Slide 4">
+                
+                <!-- Carpentry -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image4 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Carpentry">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Carpentry</h5>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-                <div class="carousel-item">
-                    <div class="carousel-col px-2">
-                        <div class="category-card">
-                            <div class="category-img-wrapper">
-                                <img src="{{ image5 }}" class="category-img" alt="Slide 5">
+                
+                <!-- Painting -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image5 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Painting">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Painting</h5>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-                <div class="carousel-item">
-                    <div class="carousel-col px-2">
-                        <div class="category-card">
-                            <div class="category-img-wrapper">
-                                <img src="{{ image6 }}" class="category-img" alt="Slide 6">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+        </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#recipeCarousel" data-bs-slide="prev" style="width: 5%;">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#recipeCarousel" data-bs-slide="next" style="width: 5%;">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-
+        <!-- Slide 2 -->
+        <div class="carousel-item" style="background: #ffffff;">
+            <div class="d-flex gap-4 px-3 justify-content-center flex-wrap" style="min-height: 450px; background: #ffffff;">
+                <!-- Gardening -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image6 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Gardening">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Gardening</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Cleaning -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image1 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Cleaning">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Cleaning</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Plumbing -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image2 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Plumbing">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Plumbing</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Electrical -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image3 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Electrical">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Electrical</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Carpentry -->
+                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            <div style="width: 100%; height: 320px; overflow: hidden;">
+                                <img src="{{ image4 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Carpentry">
+                            </div>
+                            <div style="padding: 16px; text-align: center;">
+                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Carpentry</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Navigation Buttons -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev" style="width: 5%; opacity: 0.8; transition: all 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.8';">
+        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next" style="width: 5%; opacity: 0.8; transition: all 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.8';">
+        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>

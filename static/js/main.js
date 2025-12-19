@@ -1,27 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Carousel functionality
-    const items = document.querySelectorAll('#recipeCarousel .carousel-item');
-    items.forEach((el) => {
-        const minPerSlide = 5;
-        let next = el.nextElementSibling;
-        for (let i = 1; i < minPerSlide; i++) {
-            if (!next) next = items[0];
-            const cloneChild = next.cloneNode(true);
-            el.appendChild(cloneChild.children[0]);
-            next = next.nextElementSibling;
-        }
-    });
-
-    const recipeCarouselEl = document.querySelector('#recipeCarousel');
-    if (recipeCarouselEl && window.bootstrap) {
-        new bootstrap.Carousel(recipeCarouselEl, {
-            interval: 3000,
-            ride: 'carousel',
-            pause: false,
-            wrap: true,
-        });
-    }
-
+    // Bootstrap carousel auto-initialized via data-bs-ride="carousel"
+    
     // ===== LOCATION SELECTION - UBER/PATHAO STYLE =====
     // ===== SIMPLE LOCATION TYPEAHEAD (NO MAP) =====
     const locationInput = document.getElementById('locationInput');
