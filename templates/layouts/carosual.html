@@ -26,168 +26,89 @@
     color: #E37C7C;
     transform: translateY(-2px);
 }
+
+.empty-categories {
+    padding: 60px 20px;
+    text-align: center;
+    color: #666;
+}
+
+.empty-categories i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
 </style>
 
-<div id="categoryCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" style="padding: 40px 0; max-width: 1400px; margin: 0 auto; background: #ffffff;">
-    <div class="carousel-inner" style="background: #ffffff;">
-        <!-- Slide 1 -->
-        <div class="carousel-item active" style="background: #ffffff;">
-            <div class="d-flex gap-4 px-3 justify-content-center flex-wrap" style="min-height: 450px; background: #ffffff;">
-                <!-- Cleaning -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image1 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Cleaning">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Cleaning</h5>
-                            </div>
+{% if categories %}
+<div class="position-relative" style="padding: 40px 0; max-width: 1400px; margin: 0 auto; background: #ffffff;">
+    <div class="d-flex overflow-hidden" id="categorySlider" style="scroll-behavior: smooth; gap: 24px; padding: 10px 60px;">
+        {% for category in categories %}
+        <div class="category-slide-item flex-shrink-0" style="width: 240px;">
+            <a href="{% url 'search_results' %}?category={{ category.slug }}" style="text-decoration: none; display: block;">
+                <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                    <div style="width: 100%; height: 300px; overflow: hidden;">
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" style="width: 100%; height: 100%; object-fit: cover;" alt="{{ category.name }}">
+                        {% else %}
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #E37C7C 0%, #221010 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-{{ category.icon|default:'briefcase' }}" style="font-size: 4rem; color: white;"></i>
                         </div>
-                    </a>
+                        {% endif %}
+                    </div>
+                    <div style="padding: 16px; text-align: center;">
+                        <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">{{ category.name }}</h5>
+                        {% if category.workers_count %}
+                        <small class="text-muted">{{ category.workers_count }} worker{{ category.workers_count|pluralize }}</small>
+                        {% endif %}
+                    </div>
                 </div>
-                
-                <!-- Plumbing -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image2 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Plumbing">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Plumbing</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Electrical -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image3 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Electrical">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Electrical</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Carpentry -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image4 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Carpentry">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Carpentry</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Painting -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image5 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Painting">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Painting</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            </a>
         </div>
-
-        <!-- Slide 2 -->
-        <div class="carousel-item" style="background: #ffffff;">
-            <div class="d-flex gap-4 px-3 justify-content-center flex-wrap" style="min-height: 450px; background: #ffffff;">
-                <!-- Gardening -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image6 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Gardening">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Gardening</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Cleaning -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image1 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Cleaning">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Cleaning</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Plumbing -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image2 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Plumbing">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Plumbing</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Electrical -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image3 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Electrical">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Electrical</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Carpentry -->
-                <div style="flex: 0 0 18%; max-width: 280px; min-width: 240px;">
-                    <a href="#" style="text-decoration: none; display: block;">
-                        <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                            <div style="width: 100%; height: 320px; overflow: hidden;">
-                                <img src="{{ image4 }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Carpentry">
-                            </div>
-                            <div style="padding: 16px; text-align: center;">
-                                <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">Carpentry</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
+    {% if categories|length > 4 %}
     <!-- Navigation Buttons -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev" style="width: 5%; opacity: 0.8; transition: all 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.8';">
-        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></span>
-        <span class="visually-hidden">Previous</span>
+    <button type="button" onclick="slideCategories(-1)" class="btn position-absolute" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); left: 5px; background: #221010; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-chevron-left text-white"></i>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next" style="width: 5%; opacity: 0.8; transition: all 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.8';">
-        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></span>
-        <span class="visually-hidden">Next</span>
+    <button type="button" onclick="slideCategories(1)" class="btn position-absolute" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); right: 5px; background: #221010; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-chevron-right text-white"></i>
     </button>
+    {% endif %}
 </div>
+
+<script>
+function slideCategories(direction) {
+    const slider = document.getElementById('categorySlider');
+    const scrollAmount = 264; // card width (240) + gap (24)
+    slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+}
+
+// Auto-slide every 3 seconds
+let autoSlide;
+function startAutoSlide() {
+    autoSlide = setInterval(() => {
+        const slider = document.getElementById('categorySlider');
+        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
+            slider.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            slideCategories(1);
+        }
+    }, 3000);
+}
+
+// Pause on hover
+document.getElementById('categorySlider')?.addEventListener('mouseenter', () => clearInterval(autoSlide));
+document.getElementById('categorySlider')?.addEventListener('mouseleave', startAutoSlide);
+
+startAutoSlide();
+</script>
+{% else %}
+<div class="empty-categories">
+    <i class="fas fa-folder-open"></i>
+    <h4>No Categories Yet</h4>
+    <p class="text-muted">Categories will appear here once added by the admin.</p>
+</div>
+{% endif %}

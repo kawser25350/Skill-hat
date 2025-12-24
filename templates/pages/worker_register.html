@@ -1,0 +1,159 @@
+{% extends "base/login_sign_up_base.html" %}
+{% load static %}
+
+{% block title %}Worker Registration - Skill-হাট{% endblock %}
+
+{% block left %}
+<div class="col-md-7 p-4 d-flex align-items-center" style="overflow-y: auto; max-height: 100vh;">
+    <div class="w-100" style="max-width: 550px; margin: 0 auto;">
+        <div class="mb-3">
+            <a href="{% url 'register' %}" class="text-decoration-none text-muted">
+                <i class="fas fa-arrow-left me-2"></i>Back
+            </a>
+        </div>
+        
+        <div class="text-center mb-4">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                 style="width: 70px; height: 70px; background: linear-gradient(135deg, #221010, #E37C7C);">
+                <i class="fas fa-briefcase text-white fa-2x"></i>
+            </div>
+            <h4 class="fw-bold mb-1" style="color: #221010;">Join as a Worker</h4>
+            <p class="text-muted small">Offer your services and start earning</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <!-- Personal Info Section -->
+            <div class="mb-4">
+                <h6 class="fw-bold text-muted mb-3"><i class="fas fa-user me-2"></i>Personal Information</h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="full_name" placeholder="Full Name *" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" class="form-control" name="email" placeholder="Email Address *" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="tel" class="form-control" name="phone" placeholder="Phone Number *" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="location" placeholder="Your Location (City) *" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Professional Info Section -->
+            <div class="mb-4">
+                <h6 class="fw-bold text-muted mb-3"><i class="fas fa-briefcase me-2"></i>Professional Details</h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="role" placeholder="Your Role (e.g., Plumber, Cleaner) *" required>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-select" name="category" required>
+                            <option value="">Select Category *</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text">৳</span>
+                            <input type="number" class="form-control" name="hourly_rate" placeholder="Hourly Rate *" min="50" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="number" class="form-control" name="experience_years" placeholder="Years of Experience" min="0">
+                    </div>
+                    <div class="col-12">
+                        <textarea class="form-control" name="bio" rows="2" placeholder="Tell customers about your skills and experience..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Photo -->
+            <div class="mb-4">
+                <h6 class="fw-bold text-muted mb-3"><i class="fas fa-camera me-2"></i>Profile Photo</h6>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px; background: #f0f0f0; overflow: hidden;" id="photoPreview">
+                        <i class="fas fa-user text-muted fa-2x"></i>
+                    </div>
+                    <div>
+                        <input type="file" class="form-control" name="photo" accept="image/*" id="photoInput" onchange="previewPhoto(this)">
+                        <small class="text-muted">JPG, PNG. Max 5MB</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Password Section -->
+            <div class="mb-4">
+                <h6 class="fw-bold text-muted mb-3"><i class="fas fa-lock me-2"></i>Create Password</h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" name="password1" placeholder="Password *" required id="password1">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" name="password2" placeholder="Confirm Password *" required id="password2">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="agreeTerms" name="agree_terms" required>
+                    <label class="form-check-label small" for="agreeTerms">
+                        I agree to the <a href="#" style="color: #E37C7C;">terms and conditions</a> and <a href="#" style="color: #E37C7C;">worker guidelines</a>
+                    </label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn w-100 mb-3 fw-semibold" style="background: linear-gradient(135deg, #221010, #E37C7C); color: white;">
+                <i class="fas fa-rocket me-2"></i>START EARNING
+            </button>
+        </form>
+        
+        <div class="text-center">
+            <p class="text-muted mb-0">
+                Already have an account? 
+                <a href="{% url 'login' %}" class="fw-semibold" style="color: #E37C7C;">Sign In</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function previewPhoto(input) {
+    const preview = document.getElementById('photoPreview');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">`;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}
+
+{% block right %}
+<div class="col-md-5 p-0 d-none d-md-block">
+    <div class="h-100 position-relative" style="background: linear-gradient(135deg, #221010 0%, #E37C7C 100%);">
+        <div class="h-100 d-flex flex-column align-items-center justify-content-center text-white p-4">
+            <i class="fas fa-hand-holding-usd mb-4" style="font-size: 4rem; opacity: 0.9;"></i>
+            <h3 class="fw-bold text-center mb-3">Start Earning Today</h3>
+            <p class="text-center mb-4 opacity-75">
+                Join thousands of workers earning on Skill-হাট
+            </p>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Set your own rates</li>
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Flexible schedule</li>
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Get paid securely</li>
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Build your reputation</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -6,11 +6,7 @@
 
 {% block main %}
 
-  {% if name == 'kawser' %}
-   {% include "layouts/nologin_header.html" %}
-  {% else %}
-     <h1>no user</h1>
-  {% endif %}
+{% include "layouts/nologin_header.html" %}
 
 
     <div class="container-fluid position-relative  rounded-bottom-1" style="background-image: url('{% static "images/cleaner.png" %}'); background-size: cover; height:90vh;">
@@ -26,11 +22,10 @@
                             <div class="row g-0 search-bar">
                                 <div class="col-12 col-sm-4">
                                     <select class="form-select search-select" id="categorySelect" aria-label="Select category">
-                                        <option selected>Choose Category</option>
-                                        <option value="cleaning">Cleaning</option>
-                                        <option value="plumbing">Plumbing</option>
-                                        <option value="electrical">Electrical</option>
-                                        <option value="carpentry">Carpentry</option>
+                                        <option selected value="">Choose Category</option>
+                                        {% for cat in categories %}
+                                        <option value="{{ cat.slug }}">{{ cat.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-5 position-relative">
@@ -50,35 +45,41 @@
                             </div>
                             <!-- Map feature removed; simplified typeahead suggestions only -->
                         </div>
+                        {% if categories %}
                         <div class="flex-row mt-4 ">
                             <p class=" text-white d-inline  fw-bold   p-1 rounded-2">
                                 Trending keywords:
                             </p>
                             <p class=" d-inline  fw-semibold ms-2  p-1 rounded-2 text-light">
-                                Cleaning, Plumbing, Electrical, Carpentry, Painting, Gardening
+                                {% for cat in categories %}{{ cat.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
                             </p>
                         </div>
+                        {% endif %}
 
                 </div>
     </div>
 
 
-        <div class="container-fluid p-3 mt-5 bg-white rounded-3 " >
+        <div class="container-fluid p-3 mt-5 bg-white rounded-3" id="categories">
          <h1 class="text-center text-dark p-3 mb-4">Explore Your Categories</h1>
-                {% static 'images/jihad.jpg' as jihad_img %}
-                {% static 'images/kawser.jpg' as kawser_img %}
-                {% static 'images/sanaullah.jpg' as sanaullah_img %}
-        {% include 'layouts/carosual.html'  with image1=jihad_img image2=kawser_img image3=sanaullah_img image4=jihad_img image5=kawser_img image6=sanaullah_img%}
+        {% include 'layouts/carosual.html' %}
     </div>
 
    
-   <div class="container mt-5 py-5 px-4" style="background: white;">
+   <!-- Workers Section -->
+   <div class="container mt-5 py-5 px-4" style="background: white;" id="workers">
     <h2 class="text-center mb-5 fw-bold" style="color: #333;">Most Hired Workers</h2>
 
     <div class="row g-3">
         {% for worker in default_workers %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 {% include 'components/usercard.html' with worker=worker %}
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-users fa-4x text-muted mb-3" style="opacity: 0.3;"></i>
+                <h5 class="text-muted">No workers available yet</h5>
+                <p class="text-muted">Be the first to <a href="{% url 'worker_register' %}" style="color: #E37C7C;">register as a worker</a>!</p>
             </div>
         {% endfor %}
     </div>
