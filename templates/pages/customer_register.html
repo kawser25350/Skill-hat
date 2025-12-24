@@ -1,0 +1,127 @@
+{% extends "base/login_sign_up_base.html" %}
+{% load static %}
+
+{% block title %}Customer Registration - Skill-হাট{% endblock %}
+
+{% block left %}
+<div class="col-md-6 p-5 d-flex align-items-center">
+    <div class="w-100" style="max-width: 400px; margin: 0 auto;">
+        <div class="mb-4">
+            <a href="{% url 'register' %}" class="text-decoration-none text-muted">
+                <i class="fas fa-arrow-left me-2"></i>Back
+            </a>
+        </div>
+        
+        <div class="text-center mb-4">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                 style="width: 70px; height: 70px; background: linear-gradient(135deg, #E37C7C, #221010);">
+                <i class="fas fa-user text-white fa-2x"></i>
+            </div>
+            <h4 class="fw-bold mb-1" style="color: #221010;">Create Customer Account</h4>
+            <p class="text-muted small">Find and hire skilled workers for your tasks</p>
+        </div>
+        
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-user" style="color: #E37C7C;"></i></span>
+                    <input type="text" class="form-control border-start-0" name="full_name" placeholder="Full Name" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-envelope" style="color: #E37C7C;"></i></span>
+                    <input type="email" class="form-control border-start-0" name="email" placeholder="Email address" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-phone" style="color: #E37C7C;"></i></span>
+                    <input type="tel" class="form-control border-start-0" name="phone" placeholder="Phone Number (optional)">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-lock" style="color: #E37C7C;"></i></span>
+                    <input type="password" class="form-control border-start-0 border-end-0" name="password1" placeholder="Password" required id="password1">
+                    <span class="input-group-text bg-white border-start-0" style="cursor: pointer;" onclick="togglePassword('password1', this)">
+                        <i class="fas fa-eye text-muted"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-lock" style="color: #E37C7C;"></i></span>
+                    <input type="password" class="form-control border-start-0 border-end-0" name="password2" placeholder="Confirm Password" required id="password2">
+                    <span class="input-group-text bg-white border-start-0" style="cursor: pointer;" onclick="togglePassword('password2', this)">
+                        <i class="fas fa-eye text-muted"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="agreeTerms" name="agree_terms" required>
+                    <label class="form-check-label small" for="agreeTerms">
+                        I agree to the <a href="#" style="color: #E37C7C;">terms and conditions</a>
+                    </label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn w-100 mb-3 fw-semibold" style="background: linear-gradient(135deg, #E37C7C, #221010); color: white;">
+                <i class="fas fa-user-plus me-2"></i>CREATE ACCOUNT
+            </button>
+        </form>
+        
+        <div class="text-center">
+            <p class="text-muted mb-0">
+                Already have an account? 
+                <a href="{% url 'login' %}" class="fw-semibold" style="color: #E37C7C;">Sign In</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword(inputId, icon) {
+    const input = document.getElementById(inputId);
+    const iconEl = icon.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        iconEl.classList.remove('fa-eye');
+        iconEl.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        iconEl.classList.remove('fa-eye-slash');
+        iconEl.classList.add('fa-eye');
+    }
+}
+</script>
+{% endblock %}
+
+{% block right %}
+<div class="col-md-6 p-0">
+    <div class="h-100 position-relative" style="background: linear-gradient(135deg, #E37C7C 0%, #221010 100%);">
+        <div class="h-100 d-flex flex-column align-items-center justify-content-center text-white p-5">
+            <i class="fas fa-search mb-4" style="font-size: 4rem; opacity: 0.9;"></i>
+            <h2 class="fw-bold text-center mb-3">Find the Perfect Worker</h2>
+            <p class="text-center mb-4 opacity-75">
+                Browse thousands of skilled professionals ready to help with your tasks.
+            </p>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Browse verified workers</li>
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Read reviews and ratings</li>
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Book services easily</li>
+                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Secure payments</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

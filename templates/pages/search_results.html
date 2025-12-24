@@ -6,11 +6,7 @@
 
 {% block main %}
 
-{% if name == 'kawser' %}
-   {% include "layouts/nologin_header.html" %}
-{% else %}
-   <h1>no user</h1>
-{% endif %}
+{% include "layouts/nologin_header.html" %}
 
 <div class="container-fluid mt-4 py-4">
     <div class="container">
@@ -36,12 +32,9 @@
                                 <label class="fw-bold mb-2 d-block">Category</label>
                                 <select class="form-select form-select-sm" name="category">
                                     <option value="">All Categories</option>
-                                    <option value="cleaning" {% if category == 'cleaning' %}selected{% endif %}>Cleaning</option>
-                                    <option value="plumbing" {% if category == 'plumbing' %}selected{% endif %}>Plumbing</option>
-                                    <option value="electrical" {% if category == 'electrical' %}selected{% endif %}>Electrical</option>
-                                    <option value="carpentry" {% if category == 'carpentry' %}selected{% endif %}>Carpentry</option>
-                                    <option value="painting" {% if category == 'painting' %}selected{% endif %}>Painting</option>
-                                    <option value="gardening" {% if category == 'gardening' %}selected{% endif %}>Gardening</option>
+                                    {% for cat in categories %}
+                                    <option value="{{ cat.slug }}" {% if category == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
 
@@ -108,7 +101,13 @@
                                 <div class="card border-0 shadow-sm w-100 h-100 overflow-hidden worker-result-card" style="transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: white;">
                                     <!-- Worker Image -->
                                     <div class="position-relative overflow-hidden" style="height: 250px;">
-                                        <img src="{{ worker.photo.url }}" alt="{{ worker.name }}" class="w-100 h-100 object-fit-cover" style="transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                                        {% if worker.photo %}
+                                            <img src="{{ worker.photo }}" alt="{{ worker.name }}" class="w-100 h-100 object-fit-cover" style="transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                                        {% else %}
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #221010, #E37C7C);">
+                                                <span style="color: white; font-size: 5rem; font-weight: 700;">{{ worker.name|slice:":1"|upper }}</span>
+                                            </div>
+                                        {% endif %}
                                         <div class="position-absolute top-0 start-0 m-2">
                                             <span class="badge" style="background: linear-gradient(135deg, #E37C7C 0%, #C65D5D 100%);">
                                                 {{ worker.category|title }}
