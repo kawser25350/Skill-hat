@@ -1,107 +1,94 @@
 {% extends "base/login_sign_up_base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 
-{% block title %} Register to Skill-হাট {% endblock %}
+{% block title %}Register - Skill-হাট{% endblock %}
 
 {% block left %}
 <div class="col-md-6 p-5 d-flex align-items-center">
-  <div class="w-100" style="max-width: 400px; margin: 0 auto;">
-    <h4 class="mb-4 text-center">Register to Skill-হাট</h4>
-    
-    {% if messages %}
-      <div class="messages">
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-    
-    <form method="POST">
-      {% csrf_token %}
-      
-      <div class="mb-3">
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="fas fa-user text-muted"></i></span>
-          <input type="text" class="form-control" name="full_name" placeholder="Full Name" required>
+    <div class="w-100" style="max-width: 450px; margin: 0 auto;">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold mb-2" style="color: #221010;">Join Skill-হাট</h3>
+            <p class="text-muted">Choose how you want to use Skill-হাট</p>
         </div>
-        {% if form.full_name.errors %}
-          <small class="text-danger d-block mt-1">{{ form.full_name.errors.0 }}</small>
-        {% endif %}
-      </div>
 
-      <div class="mb-3">
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="fas fa-envelope text-muted"></i></span>
-          <input type="email" class="form-control" name="email" placeholder="Email address" required>
+        <div class="mb-4">
+            <!-- Customer Card -->
+            <a href="{% url 'customer_register' %}{% if next %}?next={{ next }}{% endif %}" class="text-decoration-none">
+                <div class="card border-0 shadow-sm mb-3" style="transition: all 0.3s ease; cursor: pointer;" 
+                     onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(227, 124, 124, 0.3)';" 
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 60px; height: 60px; background: linear-gradient(135deg, #E37C7C, #221010);">
+                                <i class="fas fa-user text-white fa-lg"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold mb-1" style="color: #221010;">I'm a Customer</h5>
+                                <p class="text-muted mb-0 small">I want to hire skilled workers for my tasks</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Worker Card -->
+            <a href="{% url 'worker_register' %}" class="text-decoration-none">
+                <div class="card border-0 shadow-sm" style="transition: all 0.3s ease; cursor: pointer;" 
+                     onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(34, 16, 16, 0.3)';" 
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 60px; height: 60px; background: linear-gradient(135deg, #221010, #E37C7C);">
+                                <i class="fas fa-briefcase text-white fa-lg"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold mb-1" style="color: #221010;">I'm a Worker</h5>
+                                <p class="text-muted mb-0 small">I want to offer my services and get hired</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
-        {% if form.email.errors %}
-          <small class="text-danger d-block mt-1">{{ form.email.errors.0 }}</small>
-        {% endif %}
-      </div>
-      
-      <div class="mb-3">
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="fas fa-lock text-muted"></i></span>
-          <input type="password" class="form-control" name="password1" placeholder="Password" required>
-          <span class="input-group-text bg-white"><i class="fas fa-eye text-muted"></i></span>
-        </div>
-        {% if form.password1.errors %}
-          <small class="text-danger d-block mt-1">{{ form.password1.errors.0 }}</small>
-        {% endif %}
-      </div>
 
-      <div class="mb-3">
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="fas fa-lock text-muted"></i></span>
-          <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
-          <span class="input-group-text bg-white"><i class="fas fa-eye text-muted"></i></span>
+        <div class="text-center">
+            <p class="text-muted mb-0">
+                Already have an account? 
+                <a href="{% url 'login' %}{% if next %}?next={{ next }}{% endif %}" class="fw-semibold" style="color: #E37C7C;">Sign In</a>
+            </p>
         </div>
-        {% if form.password2.errors %}
-          <small class="text-danger d-block mt-1">{{ form.password2.errors.0 }}</small>
-        {% endif %}
-      </div>
-      
-      <div class="mb-3">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="agreeTerms" name="agree_terms" required>
-          <label class="form-check-label small" for="agreeTerms">
-            I agree to the terms and conditions
-          </label>
-        </div>
-        {% if form.agree_terms.errors %}
-          <small class="text-danger d-block mt-1">{{ form.agree_terms.errors.0 }}</small>
-        {% endif %}
-      </div>
-      
-      <button type="submit" class="btn btn-danger w-100 mb-3">REGISTER</button>
-      
-      <div class="text-center">
-        <button type="button" class="btn btn-outline-secondary me-2">
-          <i class="fab fa-google"></i>
-        </button>
-        <button type="button" class="btn btn-outline-secondary">
-          <i class="fab fa-facebook-f"></i>
-        </button>
-      </div>
-    </form>
-  </div>
+    </div>
 </div>
-      
 {% endblock %}
 
 {% block right %}
-
-  <div class="col-md-6 p-0 ">
-    <div class="h-100 position-relative" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-      <img src="{% static 'images/cleaner.png' %}" alt="Worker" class="img-fluid h-100 w-100" style="object-fit: cover; opacity: 0.9;">
+<div class="col-md-6 p-0">
+    <div class="h-100 position-relative" style="background: linear-gradient(135deg, #221010 0%, #E37C7C 100%);">
+        <div class="h-100 d-flex flex-column align-items-center justify-content-center text-white p-5">
+            <i class="fas fa-handshake mb-4" style="font-size: 5rem; opacity: 0.9;"></i>
+            <h2 class="fw-bold text-center mb-3">Connect with Skilled Professionals</h2>
+            <p class="text-center mb-4 opacity-75">
+                Whether you need help or want to offer your expertise, Skill-হাট brings you together.
+            </p>
+            <div class="d-flex gap-4 text-center">
+                <div>
+                    <h4 class="fw-bold mb-1">1000+</h4>
+                    <small class="opacity-75">Workers</small>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1">5000+</h4>
+                    <small class="opacity-75">Jobs Done</small>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1">4.8★</h4>
+                    <small class="opacity-75">Rating</small>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-      
 </div>
-</div>
-
 {% endblock %}

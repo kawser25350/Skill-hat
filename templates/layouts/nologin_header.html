@@ -1,35 +1,122 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow  rounded-bottom-3" style="background-color: #db1818;" >
-                <div class="container mt-3 rounded-bottom-3" s>
-                    
-                    <!-- Logo -->
-                    <a class="navbar-brand d-flex align-items-center " href="{% url 'home' %}">
-                    <span class="fw-semibold me-1">
-                        <img src="{% static 'images/logo.png' %}" alt="Skill-hat logo" style="width:40px; height:auto; display:block;" loading="lazy">
-                    </span>
-                       <span class="fw-bold" style="color: #f80d0d;  font-family:'Roboto Flex','sans-serif';  ">Skill-</span>
-                       <span class="fw-bold text-dark">হাট</span>
-
-                    </a>
-                    
-
-                        <ul class="navbar-nav align-items-center gap-3">
-                            
-
-                            <li class="nav-item ">
-                                <a href="{% url 'register' %}" class="btn  fw-semibold rounded-1 " style="background-color:#221010; color: white;   ">REGISTER</a>
-                            </li>
-
-
-                            <li class="nav-item">
-                                <a href="{% url 'login' %}" class="btn fw-semibold rounded-1 " style="background-color:#E37C7C; color: white;    ">SIGN IN</a>
-                            </li>
-
-
-                        </ul>
-                     
-                    
-                </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow rounded-bottom-3" style="background-color: #db1818;">
+    <div class="container mt-3 rounded-bottom-3">
+        
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.05)'; this.style.opacity='0.8';" onmouseout="this.style.transform='scale(1)'; this.style.opacity='1';">
+            <span class="fw-semibold me-1" style="transition: transform 0.3s ease;" onmouseover="this.style.transform='rotate(-10deg)';" onmouseout="this.style.transform='rotate(0deg)';">
+                <img src="{% static 'images/logo.png' %}" alt="Skill-hat logo" style="width:40px; height:auto; display:block;" loading="lazy">
+            </span>
+            <span class="fw-bold" style="color: #f80d0d; font-family:'Roboto Flex','sans-serif';">Skill-</span>
+            <span class="fw-bold text-dark">হাট</span>
+        </a>
+        
+        <ul class="navbar-nav align-items-center gap-2 ms-auto">
+            {% if user.is_authenticated %}
+                <!-- Logged In User Menu - Navigation Links -->
                 
-            </nav>
+                <!-- Home -->
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="nav-link fw-semibold px-3" style="color: #221010; transition: all 0.3s ease;" onmouseover="this.style.color='#E37C7C';" onmouseout="this.style.color='#221010';">
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                </li>
+                
+                <!-- Search / Find Workers -->
+                <li class="nav-item">
+                    <a href="{% url 'search_results' %}" class="nav-link fw-semibold px-3" style="color: #221010; transition: all 0.3s ease;" onmouseover="this.style.color='#E37C7C';" onmouseout="this.style.color='#221010';">
+                        <i class="fas fa-search me-1"></i> Search
+                    </a>
+                </li>
+                
+                {% if user.profile.user_type == 'client' %}
+                <!-- Categories - For Customers -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link fw-semibold px-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color: #221010; transition: all 0.3s ease;" onmouseover="this.style.color='#E37C7C';" onmouseout="this.style.color='#221010';">
+                        <i class="fas fa-th me-1"></i> Categories
+                    </a>
+                    <ul class="dropdown-menu shadow-lg border-0" style="border-radius: 12px;">
+                        <li><a class="dropdown-item py-2" href="{% url 'search_results' %}?category=cleaning"><i class="fas fa-broom me-2 text-muted"></i> Cleaning</a></li>
+                        <li><a class="dropdown-item py-2" href="{% url 'search_results' %}?category=plumbing"><i class="fas fa-wrench me-2 text-muted"></i> Plumbing</a></li>
+                        <li><a class="dropdown-item py-2" href="{% url 'search_results' %}?category=electrical"><i class="fas fa-bolt me-2 text-muted"></i> Electrical</a></li>
+                        <li><a class="dropdown-item py-2" href="{% url 'search_results' %}?category=painting"><i class="fas fa-paint-roller me-2 text-muted"></i> Painting</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item py-2" href="{% url 'home' %}#categories"><i class="fas fa-list me-2 text-muted"></i> View All</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <!-- My Jobs - For Workers -->
+                <li class="nav-item">
+                    <a href="{% url 'dashboard' %}#orders" class="nav-link fw-semibold px-3" style="color: #221010; transition: all 0.3s ease;" onmouseover="this.style.color='#E37C7C';" onmouseout="this.style.color='#221010';">
+                        <i class="fas fa-briefcase me-1"></i> My Jobs
+                    </a>
+                </li>
+                {% endif %}
+                
+                <!-- Divider -->
+                <li class="nav-item d-none d-lg-block">
+                    <span class="text-muted px-2">|</span>
+                </li>
+                
+                <!-- Profile Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center p-0" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="transition: all 0.3s ease;">
+                        <div class="position-relative">
+                            {% if user.profile.user_type == 'worker' and user.worker_profile.profile_photo %}
+                                <img src="{{ user.worker_profile.profile_photo.url }}" alt="{{ user.first_name }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #E37C7C; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#221010'; this.style.transform='scale(1.1)';" onmouseout="this.style.borderColor='#E37C7C'; this.style.transform='scale(1)';">
+                            {% elif user.profile.profile_image %}
+                                <img src="{{ user.profile.profile_image.url }}" alt="{{ user.first_name }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #E37C7C; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#221010'; this.style.transform='scale(1.1)';" onmouseout="this.style.borderColor='#E37C7C'; this.style.transform='scale(1)';">
+                            {% else %}
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: linear-gradient(135deg, {% if user.profile.user_type == 'worker' %}#221010, #E37C7C{% else %}#E37C7C, #221010{% endif %}); color: white; font-weight: 600; font-size: 1rem; border: 2px solid #E37C7C; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                                    {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                            <span class="position-absolute bottom-0 end-0 {% if user.profile.user_type == 'worker' %}bg-primary{% else %}bg-success{% endif %} rounded-circle" style="width: 10px; height: 10px; border: 2px solid white;"></span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2" aria-labelledby="profileDropdown" style="min-width: 220px; border-radius: 12px; overflow: hidden;">
+                        <li class="px-3 py-2 border-bottom" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                            <div class="d-flex align-items-center">
+                                {% if user.profile.user_type == 'worker' and user.worker_profile.profile_photo %}
+                                    <img src="{{ user.worker_profile.profile_photo.url }}" alt="{{ user.first_name }}" class="rounded-circle me-2" style="width: 45px; height: 45px; object-fit: cover;">
+                                {% elif user.profile.profile_image %}
+                                    <img src="{{ user.profile.profile_image.url }}" alt="{{ user.first_name }}" class="rounded-circle me-2" style="width: 45px; height: 45px; object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 45px; height: 45px; background: linear-gradient(135deg, #E37C7C, #221010); color: white; font-weight: 600;">
+                                        {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <p class="mb-0 fw-bold text-dark">{{ user.first_name }} {{ user.last_name }}</p>
+                                    <small class="{% if user.profile.user_type == 'worker' %}text-primary{% else %}text-success{% endif %}">
+                                        <i class="fas {% if user.profile.user_type == 'worker' %}fa-briefcase{% else %}fa-user{% endif %} me-1"></i>
+                                        {% if user.profile.user_type == 'worker' %}Worker{% else %}Customer{% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item py-2" href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt me-2 text-muted"></i> Dashboard</a></li>
+                        <li><a class="dropdown-item py-2" href="{% url 'dashboard' %}#profile"><i class="fas fa-user-edit me-2 text-muted"></i> Edit Profile</a></li>
+                        {% if user.profile.user_type == 'worker' %}
+                        <li><a class="dropdown-item py-2" href="{% url 'dashboard' %}#orders"><i class="fas fa-clipboard-list me-2 text-muted"></i> My Jobs</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item py-2" href="{% url 'dashboard' %}#orders"><i class="fas fa-shopping-cart me-2 text-muted"></i> My Bookings</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-2 text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <!-- Not Logged In - Show Register/Login -->
+                <li class="nav-item">
+                    <a href="{% url 'register' %}" class="btn fw-semibold rounded-1" style="background-color:#221010; color: white; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none;" onmouseover="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(227, 124, 124, 0.4)';" onmouseout="this.style.backgroundColor='#221010'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">REGISTER</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="btn fw-semibold rounded-1" style="background-color:#E37C7C; color: white; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none;" onmouseover="this.style.backgroundColor='#221010'; this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(34, 16, 16, 0.4)';" onmouseout="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">SIGN IN</a>
+                </li>
+            {% endif %}
+        </ul>
+        
+    </div>
+</nav>

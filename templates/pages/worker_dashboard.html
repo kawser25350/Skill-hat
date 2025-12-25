@@ -1,0 +1,398 @@
+{% extends "base/bast.html" %}
+{% load static %}
+
+{% block title %}Worker Dashboard - Skill-হাট{% endblock %}
+
+{% block main %}
+{% include "layouts/nologin_header.html" %}
+
+<div class="container-fluid py-4" style="background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); min-height: 100vh;">
+    <div class="container">
+        
+        <!-- Welcome Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="bg-white rounded-4 p-4 shadow-sm" style="background: linear-gradient(135deg, #221010 0%, #E37C7C 100%) !important;">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative me-3">
+                                {% if worker.profile_photo %}
+                                    <img src="{{ worker.profile_photo.url }}" alt="{{ user.first_name }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid white;">
+                                {% elif profile.profile_image %}
+                                    <img src="{{ profile.profile_image.url }}" alt="{{ user.first_name }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid white;">
+                                {% else %}
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: white; color: #221010; font-weight: 700; font-size: 1.8rem;">
+                                        {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                    </div>
+                                {% endif %}
+                                <span class="position-absolute bottom-0 end-0 bg-success rounded-circle" style="width: 20px; height: 20px; border: 3px solid white;"></span>
+                            </div>
+                            <div>
+                                <h3 class="text-white mb-1">Welcome back, {{ user.first_name }}! 👋</h3>
+                                <p class="text-white-50 mb-0">
+                                    <span class="badge bg-primary me-2"><i class="fas fa-briefcase me-1"></i> Worker</span>
+                                    {{ worker.role }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'profile' worker.id %}" class="btn btn-light fw-semibold">
+                                <i class="fas fa-eye me-1"></i> View My Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="bg-white rounded-4 p-4 shadow-sm h-100" style="transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2);">
+                            <i class="fas fa-clipboard-list text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ stats.total_bookings|default:0 }}</h3>
+                            <small class="text-muted">Total Jobs</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="bg-white rounded-4 p-4 shadow-sm h-100" style="transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            <i class="fas fa-clock text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ stats.pending_bookings|default:0 }}</h3>
+                            <small class="text-muted">Pending</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="bg-white rounded-4 p-4 shadow-sm h-100" style="transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            <i class="fas fa-star text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ stats.rating|default:"0.0" }}</h3>
+                            <small class="text-muted">Rating</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="bg-white rounded-4 p-4 shadow-sm h-100" style="transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                            <i class="fas fa-check-circle text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ stats.completed_jobs|default:0 }}</h3>
+                            <small class="text-muted">Completed</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="row g-4">
+            
+            <!-- Left Column - Profile & Worker Details -->
+            <div class="col-lg-4">
+                
+                <!-- Worker Profile Card -->
+                <div class="bg-white rounded-4 p-4 shadow-sm mb-4" id="profile">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="fw-bold mb-0"><i class="fas fa-id-card me-2 text-primary"></i>My Profile</h5>
+                        <button class="btn btn-sm btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            <i class="fas fa-edit me-1"></i> Edit
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                            {% if worker.profile_photo %}
+                                <img src="{{ worker.profile_photo.url }}" alt="{{ user.first_name }}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #221010;">
+                            {% elif profile.profile_image %}
+                                <img src="{{ profile.profile_image.url }}" alt="{{ user.first_name }}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #221010;">
+                            {% else %}
+                                <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 120px; height: 120px; background: linear-gradient(135deg, #221010, #E37C7C); color: white; font-weight: 700; font-size: 2.5rem; border: 4px solid #221010;">
+                                    {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h5 class="fw-bold mb-1">{{ user.first_name }} {{ user.last_name }}</h5>
+                        <p class="text-primary mb-2"><i class="fas fa-briefcase me-1"></i> {{ worker.role }}</p>
+                        <div class="d-flex justify-content-center gap-3 mt-2">
+                            <span class="text-warning"><i class="fas fa-star"></i> {{ worker.rating }}</span>
+                            <span class="text-muted">|</span>
+                            <span class="text-muted"><i class="fas fa-briefcase"></i> {{ worker.total_jobs }} jobs</span>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <label class="text-muted small">Email</label>
+                        <p class="mb-0 fw-semibold">{{ user.email }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Phone</label>
+                        <p class="mb-0 fw-semibold">{{ profile.phone|default:"Not set" }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Location</label>
+                        <p class="mb-0 fw-semibold">{{ worker.location }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Hourly Rate</label>
+                        <p class="mb-0 fw-semibold text-success">৳{{ worker.hourly_rate|floatformat:0 }}/hour</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Experience</label>
+                        <p class="mb-0 fw-semibold">{{ worker.experience_years }} years</p>
+                    </div>
+                    <div class="mb-0">
+                        <label class="text-muted small">Availability</label>
+                        <p class="mb-0">
+                            {% if worker.is_available %}
+                                <span class="badge bg-success">Available</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Not Available</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-4 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-bolt me-2 text-warning"></i>Quick Actions</h5>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'profile' worker.id %}" class="btn btn-outline-dark">
+                            <i class="fas fa-eye me-2"></i> View Public Profile
+                        </a>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            <i class="fas fa-edit me-2"></i> Edit Profile
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Right Column - Jobs -->
+            <div class="col-lg-8" id="orders">
+                <div class="bg-white rounded-4 p-4 shadow-sm">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="fw-bold mb-0"><i class="fas fa-briefcase me-2 text-primary"></i>My Jobs</h5>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-outline-dark active" onclick="filterOrders('all')">All</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark" onclick="filterOrders('pending')">Pending</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark" onclick="filterOrders('in_progress')">In Progress</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark" onclick="filterOrders('completed')">Completed</button>
+                        </div>
+                    </div>
+                    
+                    {% if bookings %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Client</th>
+                                        <th>Service</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for booking in bookings %}
+                                    <tr class="booking-row" data-status="{{ booking.status }}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px; color: white; font-size: 0.8rem;">
+                                                    {{ booking.client.first_name|slice:":1"|upper }}
+                                                </div>
+                                                <span class="fw-semibold">{{ booking.client.first_name }} {{ booking.client.last_name }}</span>
+                                            </div>
+                                        </td>
+                                        <td>{{ booking.service.name|default:"General Service" }}</td>
+                                        <td>{{ booking.scheduled_date|date:"M d, Y" }}</td>
+                                        <td class="fw-bold text-success">৳{{ booking.estimated_price }}</td>
+                                        <td>
+                                            {% if booking.status == 'pending' %}
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            {% elif booking.status == 'confirmed' %}
+                                                <span class="badge bg-info">Confirmed</span>
+                                            {% elif booking.status == 'in_progress' %}
+                                                <span class="badge bg-primary">In Progress</span>
+                                            {% elif booking.status == 'completed' %}
+                                                <span class="badge bg-success">Completed</span>
+                                            {% elif booking.status == 'cancelled' %}
+                                                <span class="badge bg-danger">Cancelled</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if booking.status == 'pending' %}
+                                                <form method="POST" action="{% url 'booking_action' booking.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="accept">
+                                                    <button type="submit" class="btn btn-sm btn-success me-1"><i class="fas fa-check"></i></button>
+                                                </form>
+                                                <form method="POST" action="{% url 'booking_action' booking.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="decline">
+                                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
+                                                </form>
+                                            {% elif booking.status == 'confirmed' %}
+                                                <form method="POST" action="{% url 'booking_action' booking.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="start">
+                                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-play"></i> Start</button>
+                                                </form>
+                                            {% elif booking.status == 'in_progress' %}
+                                                <form method="POST" action="{% url 'booking_action' booking.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="complete">
+                                                    <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-check-double"></i> Complete</button>
+                                                </form>
+                                            {% else %}
+                                                <button class="btn btn-sm btn-outline-dark"><i class="fas fa-eye"></i></button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-4x text-muted mb-3" style="opacity: 0.3;"></i>
+                            <h5 class="text-muted">No jobs yet</h5>
+                            <p class="text-muted">When customers book your services, they'll appear here.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="editProfileModalLabel"><i class="fas fa-user-edit me-2"></i>Edit Worker Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-3">
+                <form method="POST" action="{% url 'update_worker' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-12 text-center mb-3">
+                            <div class="position-relative d-inline-block">
+                                {% if worker.profile_photo %}
+                                    <img src="{{ worker.profile_photo.url }}" alt="{{ user.first_name }}" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #221010;" id="profilePreview">
+                                {% else %}
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 100px; height: 100px; background: linear-gradient(135deg, #221010, #E37C7C); color: white; font-weight: 700; font-size: 2rem;" id="profilePreview">
+                                        {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                    </div>
+                                {% endif %}
+                                <label for="photo" class="position-absolute bottom-0 end-0 bg-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; cursor: pointer;">
+                                    <i class="fas fa-camera text-white" style="font-size: 0.8rem;"></i>
+                                </label>
+                                <input type="file" id="photo" name="photo" class="d-none" accept="image/*">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">First Name</label>
+                            <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Last Name</label>
+                            <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Phone</label>
+                            <input type="tel" class="form-control" name="phone" value="{{ profile.phone }}" placeholder="+880 1XXX-XXXXXX">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Role/Title</label>
+                            <input type="text" class="form-control" name="role" value="{{ worker.role }}" placeholder="e.g., Cleaning Expert">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Hourly Rate (৳)</label>
+                            <input type="number" class="form-control" name="hourly_rate" value="{{ worker.hourly_rate|floatformat:0 }}" placeholder="500">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Location</label>
+                            <input type="text" class="form-control" name="location" value="{{ worker.location }}" placeholder="Dhaka">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Experience (Years)</label>
+                            <input type="number" class="form-control" name="experience_years" value="{{ worker.experience_years }}" placeholder="5">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Availability</label>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" name="is_available" id="is_available" {% if worker.is_available %}checked{% endif %}>
+                                <label class="form-check-label" for="is_available">Available for hire</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Bio</label>
+                            <textarea class="form-control" name="bio" rows="3" placeholder="Tell clients about yourself...">{{ worker.bio }}</textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-dark rounded-pill px-4">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filterOrders(status) {
+    document.querySelectorAll('.booking-row').forEach(row => {
+        if (status === 'all' || row.dataset.status === status) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// Profile image preview
+document.getElementById('photo')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('profilePreview');
+            if (preview.tagName === 'IMG') {
+                preview.src = e.target.result;
+            } else {
+                preview.outerHTML = `<img src="${e.target.result}" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #221010;" id="profilePreview">`;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+{% endblock %}

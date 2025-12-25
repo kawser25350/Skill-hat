@@ -1,16 +1,21 @@
 {% load static %}
-<div class="worker-card" style="width: 18rem;">
-    <div class="p-2 rounded-3 h-100">
-        <div class="card border-0 rounded-3 overflow-hidden h-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-            <!-- Image with padding -->
-            <div style="background-color: #f8f8f8; padding: 12px;">
-                <div class="position-relative" style="height: 200px; border-radius: 8px; overflow: hidden;">
-                    <img src="{% if worker.photo %}{{ worker.photo.url }}{% else %}{% static 'images/kawser.jpg' %}{% endif %}" class="w-100 h-100" style="object-fit: cover;" alt="{{ worker.name }}">
-                </div>
+<div class="worker-card w-100 h-100">
+    <div class="card border-0 rounded-3 overflow-hidden h-100" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: white;" onmouseover="this.style.boxShadow='0 12px 28px rgba(0, 0, 0, 0.18)'; this.style.transform='translateY(-8px)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'; this.style.transform='translateY(0)';">
+        <!-- Image with padding -->
+        <div style="background-color: #f8f8f8; padding: 6px;">
+            <div class="position-relative" style="height: 200px; border-radius: 8px; overflow: hidden;">
+                {% if worker.photo %}
+                    <img src="{{ worker.photo }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" alt="{{ worker.name }}" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                {% else %}
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #221010, #E37C7C); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                        <span style="color: white; font-size: 4rem; font-weight: 700;">{{ worker.name|slice:":1"|upper }}</span>
+                    </div>
+                {% endif %}
             </div>
+        </div>
             
             <!-- Card Body -->
-            <div class="card-body p-4" style="background: white;">
+            <div class="card-body p-2" style="background: white;">
                 <h5 class="text-dark mb-2" style="font-size: 1.1rem; font-weight: 600;">{{ worker.name }}</h5>
                 <p class="text-muted mb-3" style="font-size: 0.9rem;">{{ worker.role }}</p>
                 
@@ -30,10 +35,21 @@
                     <span class="text-dark fw-600">{{ worker.rating|default:"4.8" }} ★</span>
                 </div>
                 
-                <button class="btn w-100 mt-4" style="background-color: #000; color: white; border: none; font-size: 0.95rem; font-weight: 500; padding: 0.6rem;" onclick="window.location.href='{% url 'profile' worker.id %}'">
+            {% if user.is_authenticated %}
+                {% if user.profile.user_type == 'client' %}
+                <button class="btn w-100 mt-4" style="background-color: #000; color: white; border: none; font-size: 0.95rem; font-weight: 500; padding: 0.6rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.backgroundColor='#000'; this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{% url 'profile' worker.id %}'">
                     Hire Now
                 </button>
-            </div>
+                {% else %}
+                <button class="btn w-100 mt-4" style="background-color: #6c757d; color: white; border: none; font-size: 0.95rem; font-weight: 500; padding: 0.6rem;" onclick="window.location.href='{% url 'profile' worker.id %}'">
+                    View Profile
+                </button>
+                {% endif %}
+            {% else %}
+            <button class="btn w-100 mt-4" style="background-color: #000; color: white; border: none; font-size: 0.95rem; font-weight: 500; padding: 0.6rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.backgroundColor='#E37C7C'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.backgroundColor='#000'; this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{% url 'customer_register' %}?next={% url 'profile' worker.id %}'">
+                Hire Now
+            </button>
+            {% endif %}
         </div>
     </div>
 </div>

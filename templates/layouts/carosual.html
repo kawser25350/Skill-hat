@@ -1,84 +1,114 @@
 {% load static %}
-<div class="text-center my-3">
-    <div class="row mx-auto my-auto justify-content-center">
-        <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" role="listbox">
+<style>
+.category-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
 
-                <div class="carousel-item active">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="{{ image1 }}" class="img-fluid" alt="default image">
-                            </div>
-                            <div class="card-img-overlay">Slide 1</div>
+.category-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(227, 124, 124, 0.3);
+}
+
+.category-card img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-card:hover img {
+    transform: scale(1.15);
+}
+
+.category-label {
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-label {
+    color: #E37C7C;
+    transform: translateY(-2px);
+}
+
+.empty-categories {
+    padding: 60px 20px;
+    text-align: center;
+    color: #666;
+}
+
+.empty-categories i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+</style>
+
+{% if categories %}
+<div class="position-relative" style="padding: 40px 0; max-width: 1400px; margin: 0 auto; background: #ffffff;">
+    <div class="d-flex overflow-hidden" id="categorySlider" style="scroll-behavior: smooth; gap: 24px; padding: 10px 60px;">
+        {% for category in categories %}
+        <div class="category-slide-item flex-shrink-0" style="width: 240px;">
+            <a href="{% url 'search_results' %}?category={{ category.slug }}" style="text-decoration: none; display: block;">
+                <div class="category-card" style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                    <div style="width: 100%; height: 300px; overflow: hidden;">
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" style="width: 100%; height: 100%; object-fit: cover;" alt="{{ category.name }}">
+                        {% else %}
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #E37C7C 0%, #221010 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-{{ category.icon|default:'briefcase' }}" style="font-size: 4rem; color: white;"></i>
                         </div>
+                        {% endif %}
+                    </div>
+                    <div style="padding: 16px; text-align: center;">
+                        <h5 class="category-label" style="font-size: 1.1rem; font-weight: 700; color: #333; margin: 0;">{{ category.name }}</h5>
+                        {% if category.workers_count %}
+                        <small class="text-muted">{{ category.workers_count }} worker{{ category.workers_count|pluralize }}</small>
+                        {% endif %}
                     </div>
                 </div>
-
-                <div class="carousel-item">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="{{ image2 }}" class="img-fluid" alt="default image">
-                            </div>
-                            <div class="card-img-overlay">Slide 2</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="{{ image3 }}" class="img-fluid" alt="default image">
-                            </div>
-                            <div class="card-img-overlay">Slide 3</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="{{ image4 }}" class="img-fluid" alt="default image">
-                            </div>
-                            <div class="card-img-overlay">Slide 4</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="{{ image5 }}" class="img-fluid" alt="default image">
-                            </div>
-                            <div class="card-img-overlay">Slide 5</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="{{ image6 }}" class="img-fluid" alt="default image">
-                            </div>
-                            <div class="card-img-overlay">Slide 6</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <a class="carousel-control-prev bg-transparent w-auto" href="#recipeCarousel" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-transparent" aria-hidden="true"></span>
             </a>
-            <a class="carousel-control-next bg-transparent w-auto " href="#recipeCarousel" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-transparent" aria-hidden="true"></span>
-            </a>
-
         </div>
+        {% endfor %}
     </div>
+
+    {% if categories|length > 4 %}
+    <!-- Navigation Buttons -->
+    <button type="button" onclick="slideCategories(-1)" class="btn position-absolute" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); left: 5px; background: #221010; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-chevron-left text-white"></i>
+    </button>
+    <button type="button" onclick="slideCategories(1)" class="btn position-absolute" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); right: 5px; background: #221010; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-chevron-right text-white"></i>
+    </button>
+    {% endif %}
 </div>
+
+<script>
+function slideCategories(direction) {
+    const slider = document.getElementById('categorySlider');
+    const scrollAmount = 264; // card width (240) + gap (24)
+    slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+}
+
+// Auto-slide every 3 seconds
+let autoSlide;
+function startAutoSlide() {
+    autoSlide = setInterval(() => {
+        const slider = document.getElementById('categorySlider');
+        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
+            slider.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            slideCategories(1);
+        }
+    }, 3000);
+}
+
+// Pause on hover
+document.getElementById('categorySlider')?.addEventListener('mouseenter', () => clearInterval(autoSlide));
+document.getElementById('categorySlider')?.addEventListener('mouseleave', startAutoSlide);
+
+startAutoSlide();
+</script>
+{% else %}
+<div class="empty-categories">
+    <i class="fas fa-folder-open"></i>
+    <h4>No Categories Yet</h4>
+    <p class="text-muted">Categories will appear here once added by the admin.</p>
+</div>
+{% endif %}

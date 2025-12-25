@@ -7,149 +7,324 @@
 
 {% include "layouts/nologin_header.html" %}
 
-<div class="container py-5">
-  
-  <!-- Profile Header -->
-  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-    <div class="row">
-      <div class="col-md-3 mb-4 mb-md-0">
-        <img src="{{ worker.photo }}" 
-             alt="{{ worker.name }}" 
-             class="img-fluid rounded-3" 
-             style="width: 100%; object-fit: cover; aspect-ratio: 1;">
-      </div>
-      
-      <div class="col-md-9">
-        <h2 class="text-dark mb-1" style="font-size: 2rem; font-weight: 700;">{{ worker.name }}</h2>
-        <p class="text-muted mb-3" style="font-size: 1.1rem;">{{ worker.role }}</p>
-        
-        <div class="d-flex align-items-center gap-4 mb-4">
-          <div>
-            <span style="font-size: 0.9rem; color: #666;">Rating</span>
-            <p class="mb-0 text-dark fw-bold">{{ worker.rating }} ★</p>
-          </div>
-          <div>
-            <span style="font-size: 0.9rem; color: #666;">Hourly Rate</span>
-            <p class="mb-0 text-dark fw-bold">৳{{ worker.price }}/hour</p>
-          </div>
-          <div>
-            <span style="font-size: 0.9rem; color: #666;">Location</span>
-            <p class="mb-0 text-dark fw-bold">{{ worker.location }}</p>
-          </div>
-          <div>
-            <span style="font-size: 0.9rem; color: #666;">Experience</span>
-            <p class="mb-0 text-dark fw-bold">{{ worker.experience }} years</p>
-          </div>
-        </div>
-
-        <div class="d-flex gap-3">
-          <button class="btn" style="background-color: #000; color: white; padding: 0.8rem 2rem; font-weight: 500;">
-            Hire Now
-          </button>
-          <button class="btn" style="border: 1px solid #ddd; color: #000; padding: 0.8rem 2rem; font-weight: 500;">
-            Message
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Content Grid -->
-  <div class="row g-5">
-    
-    <!-- Left Column - Description & Skills -->
-    <div class="col-lg-7">
-      
-      <!-- Description Section -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-        <h4 class="text-dark mb-4" style="font-weight: 600;">About Me</h4>
-        <p class="text-muted" style="line-height: 1.8; font-size: 0.95rem;">
-          {{ worker.description }}
-        </p>
-      </div>
-
-      <!-- Skills Section -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-        <h4 class="text-dark mb-4" style="font-weight: 600;">Skills</h4>
-        <div class="d-flex flex-wrap gap-2">
-          {% for skill in worker.skills %}
-          <span class="badge" style="background-color: #f0f0f0; color: #333; padding: 0.6rem 1rem; font-size: 0.9rem;">{{ skill }}</span>
-          {% endfor %}
-        </div>
-      </div>
-
-      <!-- Availability Section -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-        <h4 class="text-dark mb-4" style="font-weight: 600;">Availability</h4>
-        <div class="row g-3">
-          <div class="col-sm-6">
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.3rem;">Response Time</p>
-            <p class="text-dark fw-bold mb-0">{{ worker.response_time }}</p>
-          </div>
-          <div class="col-sm-6">
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.3rem;">Jobs Completed</p>
-            <p class="text-dark fw-bold mb-0">{{ worker.jobs_completed }}+</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Right Column - Services & Works -->
-    <div class="col-lg-5">
-      
-      <!-- Featured Services -->
-      <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-        <h4 class="text-dark mb-4" style="font-weight: 600;">Featured Services</h4>
-        <div class="row g-3">
-          {% for service in worker.featured_services %}
-          <div class="col-6">
-            <div class="rounded-2 overflow-hidden" style="aspect-ratio: 1;">
-              <img src="{{ service.image }}" alt="{{ service.name }}" class="w-100 h-100" style="object-fit: cover;">
-            </div>
-            <p class="text-dark mt-2 mb-0" style="font-size: 0.9rem; font-weight: 500;">{{ service.name }}</p>
-            <p class="text-muted" style="font-size: 0.85rem;">৳{{ service.price }}</p>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <!-- Rating Summary -->
-      <div class="bg-white rounded-3 p-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-        <h4 class="text-dark mb-4" style="font-weight: 600;">Client Reviews</h4>
-        <div class="mb-3">
-          <div class="d-flex align-items-center gap-2 mb-2">
-            <span class="text-dark fw-bold">5.0 ★</span>
-            <div class="progress flex-grow-1" style="height: 8px;">
-              <div class="progress-bar" style="width: 60%; background-color: #000;"></div>
-            </div>
-            <small class="text-muted">{{ worker.review_count }}</small>
-          </div>
-          <small class="text-muted">Based on {{ worker.review_count }} client reviews</small>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Recent Works -->
-  <div class="bg-white rounded-3 p-5 mb-5" style="box-shadow: 0 4px 15px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);">
-    <h4 class="text-dark mb-4" style="font-weight: 600;">Recent Works</h4>
-    <div class="row g-4">
-      {% for work in worker.recent_works %}
-      <div class="col-md-4">
-        <div class="rounded-2 overflow-hidden mb-3" style="aspect-ratio: 1;">
-          <img src="{{ work.image }}" alt="{{ work.title }}" class="w-100 h-100" style="object-fit: cover;">
-        </div>
-        <p class="text-dark mb-1" style="font-size: 0.9rem; font-weight: 500;">{{ work.title }}</p>
-        <p class="text-muted" style="font-size: 0.85rem;">{{ work.description }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-
+<!-- Hero Section with Cover Image -->
+<div class="position-relative" style="background: linear-gradient(135deg, #221010 0%, #3d1f1f 50%, #E37C7C 100%); min-height: 250px; overflow: visible;">
+    <!-- Pattern Overlay -->
+    <div class="position-absolute w-100 h-100 top-0 start-0" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.5; pointer-events: none;"></div>
 </div>
 
+<!-- Main Content -->
+<div class="container" style="margin-top: -150px; position: relative; z-index: 10;">
+    <div class="row g-4">
+        
+        <!-- Left Column - Main Profile -->
+        <div class="col-lg-8" style="position: relative; z-index: 20;">
+            <!-- Profile Header Card -->
+            <div class="bg-white rounded-4 shadow-lg p-4 p-md-5 mb-4" style="position: relative; z-index: 50;">
+                <div class="row align-items-start">
+                    <!-- Profile Image -->
+                    <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
+                        <div class="position-relative">
+                            {% if worker.photo %}
+                                <img src="{{ worker.photo }}" 
+                                     alt="{{ worker.name }}" 
+                                     class="img-fluid rounded-4 w-100" 
+                                     style="aspect-ratio: 1; object-fit: cover; border: 4px solid white; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center rounded-4 w-100" 
+                                     style="aspect-ratio: 1; background: linear-gradient(135deg, #221010, #E37C7C); border: 4px solid white; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
+                                    <span style="color: white; font-size: 4rem; font-weight: 700;">{{ worker.name|slice:":1"|upper }}</span>
+                                </div>
+                            {% endif %}
+                            {% if worker.is_verified %}
+                            <div class="position-absolute bottom-0 end-0 bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border: 3px solid white; transform: translate(25%, 25%);">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Info -->
+                    <div class="col-md-8 col-lg-9">
+                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                            <h1 class="mb-0 fw-bold" style="font-size: 1.8rem; color: #221010;">{{ worker.name }}</h1>
+                            {% if worker.is_verified %}
+                            <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Verified</span>
+                            {% endif %}
+                        </div>
+                        
+                        <p class="text-muted mb-3" style="font-size: 1.1rem;">
+                            <i class="fas fa-briefcase me-2" style="color: #E37C7C;"></i>{{ worker.role }}
+                        </p>
+                        
+                        <!-- Quick Stats Row - Mobile Friendly -->
+                        <div class="row g-2 mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="p-2 p-md-3 rounded-3 text-center" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                    <i class="fas fa-map-marker-alt mb-1" style="color: #E37C7C;"></i>
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">Location</small>
+                                    <span class="fw-semibold text-dark" style="font-size: 0.8rem;">{{ worker.location }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-2 p-md-3 rounded-3 text-center" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                    <i class="fas fa-clock mb-1" style="color: #221010;"></i>
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">Experience</small>
+                                    <span class="fw-semibold text-dark" style="font-size: 0.8rem;">{{ worker.experience }} yrs</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-2 p-md-3 rounded-3 text-center" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                    <i class="fas fa-bolt mb-1" style="color: #E37C7C;"></i>
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">Response</small>
+                                    <span class="fw-semibold text-dark" style="font-size: 0.8rem;">{{ worker.response_time }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-2 p-md-3 rounded-3 text-center" style="background: linear-gradient(135deg, #fff3cd, #ffeeba);">
+                                    <i class="fas fa-star mb-1 text-warning"></i>
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">Rating</small>
+                                    <span class="fw-semibold text-dark" style="font-size: 0.8rem;">{{ worker.rating }}/5</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2 flex-wrap" style="position: relative; z-index: 100;">
+                            {% if user.is_authenticated %}
+                                {% with user_type=user.profile.user_type|default:'client' %}
+                                {% if user_type != 'worker' %}
+                                <a href="{% url 'create_booking' worker_obj.id %}" class="btn book-now-btn px-4 py-2" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; cursor: pointer; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <i class="fas fa-calendar-check me-2"></i>Book Now
+                                </a>
+                                <button class="btn px-4 py-2" style="background: linear-gradient(135deg, #E37C7C, #d65c5c); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <i class="fas fa-comment-dots me-2"></i>Message
+                                </button>
+                                {% else %}
+                                <div class="alert alert-secondary mb-0 py-2 px-3" style="border-radius: 10px; font-size: 0.9rem;">
+                                    <i class="fas fa-info-circle me-2"></i>Workers cannot hire other workers
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                            {% else %}
+                            <a href="{% url 'login' %}?next=/book/{{ worker_obj.id }}/" class="btn px-4 py-2" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                <i class="fas fa-calendar-check me-2"></i>Book Now
+                            </a>
+                            <a href="{% url 'login' %}?next=/worker/{{ worker_obj.id }}/" class="btn px-4 py-2" style="background: linear-gradient(135deg, #E37C7C, #d65c5c); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                <i class="fas fa-comment-dots me-2"></i>Message
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Section -->
+            <div class="bg-white rounded-4 shadow p-4 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; background: linear-gradient(135deg, #E37C7C20, #22101010);">
+                        <i class="fas fa-user-circle" style="color: #E37C7C; font-size: 1.2rem;"></i>
+                    </div>
+                    <h5 class="mb-0 fw-bold" style="color: #221010;">About Me</h5>
+                </div>
+                <p class="text-muted mb-0" style="line-height: 1.8; font-size: 0.95rem;">
+                    {{ worker.description|default:"A dedicated professional committed to delivering high-quality work and excellent customer service. With years of experience in the field, I take pride in completing every job to the highest standards." }}
+                </p>
+            </div>
+            
+            <!-- Skills Section -->
+            <div class="bg-white rounded-4 shadow p-4 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; background: linear-gradient(135deg, #22101020, #E37C7C10);">
+                        <i class="fas fa-tools" style="color: #221010; font-size: 1.2rem;"></i>
+                    </div>
+                    <h5 class="mb-0 fw-bold" style="color: #221010;">Skills & Expertise</h5>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for skill in worker.skills %}
+                    <span class="badge px-3 py-2" style="background: #f8f9fa; color: #221010; font-size: 0.85rem; font-weight: 500; border: 1px solid #dee2e6; border-radius: 20px;">
+                        <i class="fas fa-check-circle me-1" style="font-size: 0.7rem; color: #E37C7C;"></i>{{ skill }}
+                    </span>
+                    {% empty %}
+                    <span class="text-muted">No skills listed yet</span>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Recent Works / Portfolio -->
+            <div class="bg-white rounded-4 shadow p-4 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; background: linear-gradient(135deg, #E37C7C20, #22101010);">
+                        <i class="fas fa-images" style="color: #E37C7C; font-size: 1.2rem;"></i>
+                    </div>
+                    <h5 class="mb-0 fw-bold" style="color: #221010;">Recent Works</h5>
+                </div>
+                <div class="row g-3">
+                    {% for work in worker.recent_works %}
+                    <div class="col-6 col-md-4">
+                        <div class="position-relative rounded-3 overflow-hidden" style="aspect-ratio: 1;">
+                            {% if work.image %}
+                            <img src="{{ work.image }}" alt="{{ work.title }}" class="w-100 h-100" style="object-fit: cover;">
+                            {% else %}
+                            <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                <i class="fas fa-image fa-2x text-muted"></i>
+                            </div>
+                            {% endif %}
+                            <div class="position-absolute bottom-0 start-0 w-100 p-2" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                                <small class="text-white fw-semibold">{{ work.title }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-4">
+                        <i class="fas fa-camera fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No works uploaded yet</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column - Sidebar -->
+        <div class="col-lg-4">
+            <!-- Stats Cards Row -->
+            <div class="row g-3 mb-4">
+                <div class="col-6">
+                    <div class="bg-white rounded-4 shadow p-3 text-center h-100">
+                        <div class="fw-bold text-warning mb-1" style="font-size: 1.8rem;">
+                            {{ worker.rating }} <i class="fas fa-star" style="font-size: 1rem;"></i>
+                        </div>
+                        <small class="text-muted">{{ worker.review_count }} Reviews</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-white rounded-4 shadow p-3 text-center h-100">
+                        <div class="fw-bold mb-1" style="font-size: 1.8rem; color: #221010;">
+                            {{ worker.jobs_completed }}+
+                        </div>
+                        <small class="text-muted">Jobs Done</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pricing Card -->
+            <div class="bg-white rounded-4 shadow p-4 mb-4">
+                <div class="text-center mb-4">
+                    <small class="text-muted text-uppercase" style="letter-spacing: 1px; font-size: 0.75rem;">Starting From</small>
+                    <div class="d-flex align-items-baseline justify-content-center">
+                        <span class="fw-bold" style="font-size: 2.5rem; color: #221010;">৳{{ worker.price }}</span>
+                        <span class="text-muted ms-2">/hour</span>
+                    </div>
+                </div>
+                
+                <hr class="my-3">
+                
+                <!-- Services List -->
+                <h6 class="fw-bold mb-3" style="color: #221010; font-size: 0.9rem;">
+                    <i class="fas fa-list-check me-2" style="color: #E37C7C;"></i>Featured Services
+                </h6>
+                {% for service in worker.featured_services %}
+                <div class="d-flex justify-content-between align-items-center p-2 rounded-2 mb-2" style="background: #f8f9fa;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle me-2" style="color: #E37C7C; font-size: 0.8rem;"></i>
+                        <span style="font-size: 0.85rem;">{{ service.name }}</span>
+                    </div>
+                    <span class="fw-bold" style="color: #221010; font-size: 0.85rem;">৳{{ service.price }}</span>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-2" style="font-size: 0.85rem;">No services listed</p>
+                {% endfor %}
+                
+                <hr class="my-3">
+                
+                <!-- Hire Button -->
+                {% if user.is_authenticated %}
+                    {% with user_type=user.profile.user_type|default:'client' %}
+                        {% if user_type != 'worker' %}
+                        <a href="{% url 'create_booking' worker_obj.id %}" class="btn w-100 py-3" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; cursor: pointer;">
+                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                        </a>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                <a href="{% url 'login' %}?next=/book/{{ worker_obj.id }}/" class="btn w-100 py-3" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; cursor: pointer;">
+                    <i class="fas fa-calendar-check me-2"></i>Book Now
+                </a>
+                {% endif %}
+                
+                <div class="text-center mt-3">
+                    <small class="text-muted" style="font-size: 0.75rem;">
+                        <i class="fas fa-shield-alt me-1"></i>100% Satisfaction Guaranteed
+                    </small>
+                </div>
+            </div>
+            
+            <!-- Reviews Summary Card -->
+            <div class="bg-white rounded-4 shadow p-4 mb-4">
+                <h6 class="fw-bold mb-3" style="color: #221010; font-size: 0.9rem;">
+                    <i class="fas fa-star me-2 text-warning"></i>Client Reviews
+                </h6>
+                
+                <!-- Rating Bars -->
+                <div class="mb-3">
+                    {% for i in "54321" %}
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-2 text-muted" style="width: 15px; font-size: 0.8rem;">{{ i }}</span>
+                        <i class="fas fa-star text-warning me-2" style="font-size: 0.7rem;"></i>
+                        <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px; background: #f0f0f0;">
+                            <div class="progress-bar" style="width: {% if i == '5' %}70{% elif i == '4' %}20{% elif i == '3' %}7{% else %}3{% endif %}%; background: linear-gradient(90deg, #221010, #E37C7C); border-radius: 3px;"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="text-center pt-2 border-top">
+                    <small class="text-muted">Based on {{ worker.review_count }} reviews</small>
+                </div>
+            </div>
+            
+            <!-- Contact Info Card -->
+            <div class="bg-white rounded-4 shadow p-4">
+                <h6 class="fw-bold mb-3" style="color: #221010; font-size: 0.9rem;">
+                    <i class="fas fa-phone-alt me-2" style="color: #E37C7C;"></i>Quick Contact
+                </h6>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 36px; height: 36px; background: #E37C7C20;">
+                        <i class="fas fa-map-marker-alt" style="color: #E37C7C; font-size: 0.85rem;"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.7rem;">Location</small>
+                        <span class="fw-semibold" style="font-size: 0.85rem;">{{ worker.location }}</span>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 36px; height: 36px; background: #22101020;">
+                        <i class="fas fa-clock" style="color: #221010; font-size: 0.85rem;"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.7rem;">Response Time</small>
+                        <span class="fw-semibold" style="font-size: 0.85rem;">{{ worker.response_time }}</span>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 36px; height: 36px; background: #28a74520;">
+                        <i class="fas fa-check-circle" style="color: #28a745; font-size: 0.85rem;"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.7rem;">Availability</small>
+                        <span class="fw-semibold text-success" style="font-size: 0.85rem;">Available Now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Spacing before footer -->
+<div class="py-5"></div>
 
 {% endblock %}
