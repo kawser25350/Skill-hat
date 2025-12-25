@@ -1,0 +1,174 @@
+{% extends 'base/bast.html' %}
+{% load static %}
+
+{% block title %}Book {{ worker.user.get_full_name }} - SkillHat{% endblock %}
+
+{% block main %}
+{% include "layouts/nologin_header.html" %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Booking Form -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Book Service
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="bookingForm">
+                        {% csrf_token %}
+                        
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label fw-bold">Booking Title *</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Service Selection -->
+                        <div class="mb-3">
+                            <label for="id_service" class="form-label fw-bold">Select Service Package</label>
+                            {{ form.service }}
+                            <small class="text-muted">Choose a service or leave empty for custom pricing</small>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label fw-bold">Describe Your Requirements *</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <div class="text-danger small">{{ form.description.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label for="id_location" class="form-label fw-bold">Service Location *</label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div class="text-danger small">{{ form.location.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="mb-3">
+                            <label for="id_phone" class="form-label fw-bold">Contact Phone *</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <div class="text-danger small">{{ form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Date and Time -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_scheduled_date" class="form-label fw-bold">Preferred Date *</label>
+                                {{ form.scheduled_date }}
+                                {% if form.scheduled_date.errors %}
+                                    <div class="text-danger small">{{ form.scheduled_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_scheduled_time" class="form-label fw-bold">Preferred Time *</label>
+                                {{ form.scheduled_time }}
+                                {% if form.scheduled_time.errors %}
+                                    <div class="text-danger small">{{ form.scheduled_time.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'profile' worker.id %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-check me-1"></i> Create Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Worker Info Sidebar -->
+        <div class="col-lg-4">
+            <!-- Worker Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    {% if worker.profile_photo %}
+                        <img src="{{ worker.profile_photo.url }}" alt="{{ worker.user.get_full_name }}" 
+                             class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                             style="width: 100px; height: 100px; font-size: 2rem;">
+                            {{ worker.user.first_name|slice:":1" }}{{ worker.user.last_name|slice:":1" }}
+                        </div>
+                    {% endif %}
+                    
+                    <h5 class="mb-1">{{ worker.user.get_full_name }}</h5>
+                    <p class="text-muted mb-2">{{ worker.role }}</p>
+                    
+                    <div class="d-flex justify-content-center gap-3 mb-3">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i> {{ worker.rating|floatformat:1 }}
+                        </span>
+                        <span class="text-muted">
+                            <i class="fas fa-briefcase"></i> {{ worker.total_jobs }} jobs
+                        </span>
+                    </div>
+                    
+                    <div class="text-primary fw-bold fs-5">
+                        ৳{{ worker.hourly_rate|floatformat:0 }}/hour
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Services -->
+            {% if services %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="fas fa-list me-2"></i>Available Services</h6>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for service in services %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ service.name }}</strong>
+                            <br><small class="text-muted">{{ service.duration }}</small>
+                        </div>
+                        <span class="badge bg-primary">৳{{ service.price|floatformat:0 }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Payment Methods -->
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="fas fa-credit-card me-2"></i>Payment Methods</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        <img src="https://www.sslcommerz.com/wp-content/uploads/2021/11/bKash-Nagad-1.png" 
+                             alt="bKash Nagad" style="height: 30px;">
+                        <span class="badge bg-success">bKash</span>
+                        <span class="badge bg-warning text-dark">Nagad</span>
+                        <span class="badge bg-info">Visa</span>
+                        <span class="badge bg-secondary">MasterCard</span>
+                    </div>
+                    <p class="text-muted small text-center mt-2 mb-0">
+                        Secure payment via SSLCommerz
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

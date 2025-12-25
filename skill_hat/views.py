@@ -6,8 +6,8 @@ from django.contrib import messages
 from django.db.models import Q, Avg
 from django.db import transaction
 from django.views.decorators.http import require_POST
-from .forms import LoginForm, CustomerRegisterForm, WorkerRegisterForm
-from core.models import Category, Worker, Service, Skill, Booking, UserProfile
+from .forms import LoginForm, CustomerRegisterForm, WorkerRegisterForm, BookingForm
+from core.models import Category, Worker, Service, Skill, Booking, UserProfile, Payment
 
 
 def home(request):
@@ -357,6 +357,7 @@ def profile_view(request, worker_id):
     
     return render(request, 'pages/profile.html', {
         'worker': worker_data,
+        'worker_obj': worker,  # Pass actual worker object for booking URL
         'user': request.user if request.user.is_authenticated else None,
     })
 
@@ -636,4 +637,230 @@ def booking_action_view(request, booking_id):
     return redirect('dashboard')
 
 
+# ============================================
+# BOOKING & PAYMENT VIEWS
+# ============================================
+
+@login_required
+def create_booking_view(request, worker_id):
+    """Create a new booking for a worker"""
+    worker = get_object_or_404(Worker, id=worker_id)
+    
+    # Check if user is not trying to book themselves
+    if hasattr(request.user, 'worker_profile') and request.user.worker_profile == worker:
+        messages.error(request, 'You cannot book yourself!')
+        return redirect('profile', worker_id=worker_id)
+    
+    if request.method == 'POST':
+        form = BookingForm(request.POST, worker=worker)
+        if form.is_valid():
+            booking = form.save(commit=False, client=request.user)
+            booking.save()
+            
+            messages.success(request, 'Booking created successfully! Please proceed to payment.')
+            return redirect('booking_detail', booking_id=booking.id)
+    else:
+        # Pre-fill phone if available
+        initial_data = {}
+        if hasattr(request.user, 'profile') and request.user.profile.phone:
+            initial_data['phone'] = request.user.profile.phone
+        form = BookingForm(initial=initial_data, worker=worker)
+    
+    context = {
+        'form': form,
+        'worker': worker,
+        'services': worker.services.filter(is_active=True),
+    }
+    return render(request, 'pages/create_booking.html', context)
+
+
+@login_required
+def booking_detail_view(request, booking_id):
+    """View booking details"""
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # Check permissions
+    is_client = booking.client == request.user
+    is_worker = hasattr(request.user, 'worker_profile') and booking.worker == request.user.worker_profile
+    
+    if not is_client and not is_worker:
+        messages.error(request, 'You do not have permission to view this booking.')
+        return redirect('dashboard')
+    
+    # Get payment history
+    payments = booking.payments.all().order_by('-created_at')
+    
+    context = {
+        'booking': booking,
+        'is_client': is_client,
+        'is_worker': is_worker,
+        'payments': payments,
+        'can_pay': is_client and booking.payment_status == 'unpaid' and booking.status == 'pending',
+    }
+    return render(request, 'pages/booking_detail.html', context)
+
+
+@login_required
+def initiate_payment_view(request, booking_id):
+    """Initiate payment for a booking via SSLCommerz"""
+    from core.payment import get_payment_gateway
+    
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # Check if client owns this booking
+    if booking.client != request.user:
+        messages.error(request, 'You do not have permission to pay for this booking.')
+        return redirect('dashboard')
+    
+    # Check if already paid
+    if booking.payment_status == 'paid':
+        messages.info(request, 'This booking has already been paid.')
+        return redirect('booking_detail', booking_id=booking_id)
+    
+    # Get base URL for callbacks
+    base_url = request.build_absolute_uri('/').rstrip('/')
+    
+    # Initialize payment gateway
+    gateway = get_payment_gateway()
+    
+    result = gateway.initiate_payment(
+        booking=booking,
+        success_url=f"{base_url}/payment/success/",
+        fail_url=f"{base_url}/payment/fail/",
+        cancel_url=f"{base_url}/payment/cancel/",
+        ipn_url=f"{base_url}/payment/ipn/",
+    )
+    
+    if result['success']:
+        # Update booking payment status
+        booking.payment_status = 'pending'
+        booking.save()
+        
+        # Redirect to SSLCommerz payment page
+        return redirect(result['payment_url'])
+    else:
+        messages.error(request, f'Payment initiation failed: {result.get("error", "Unknown error")}')
+        return redirect('booking_detail', booking_id=booking_id)
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def payment_success_view(request):
+    """Handle successful payment callback from SSLCommerz"""
+    from core.payment import get_payment_gateway
+    
+    if request.method == 'POST':
+        data = request.POST
+    else:
+        data = request.GET
+    
+    tran_id = data.get('tran_id')
+    val_id = data.get('val_id')
+    status = data.get('status')
+    
+    if not tran_id:
+        messages.error(request, 'Invalid payment response.')
+        return redirect('dashboard')
+    
+    try:
+        payment = Payment.objects.get(transaction_id=tran_id)
+        booking = payment.booking
+        
+        # Process the payment
+        gateway = get_payment_gateway()
+        result = gateway.process_ipn(data)
+        
+        if result['success']:
+            messages.success(request, 'Payment successful! Your booking has been confirmed.')
+        else:
+            messages.warning(request, 'Payment received but verification pending. We will confirm shortly.')
+        
+        return redirect('booking_detail', booking_id=booking.id)
+        
+    except Payment.DoesNotExist:
+        messages.error(request, 'Payment not found.')
+        return redirect('dashboard')
+
+
+@csrf_exempt
+def payment_fail_view(request):
+    """Handle failed payment callback from SSLCommerz"""
+    if request.method == 'POST':
+        data = request.POST
+    else:
+        data = request.GET
+    
+    tran_id = data.get('tran_id')
+    
+    if tran_id:
+        try:
+            payment = Payment.objects.get(transaction_id=tran_id)
+            payment.status = 'failed'
+            payment.gateway_response = dict(data)
+            payment.save()
+            
+            booking = payment.booking
+            booking.payment_status = 'failed'
+            booking.save()
+            
+            messages.error(request, 'Payment failed. Please try again.')
+            return redirect('booking_detail', booking_id=booking.id)
+            
+        except Payment.DoesNotExist:
+            pass
+    
+    messages.error(request, 'Payment failed.')
+    return redirect('dashboard')
+
+
+@csrf_exempt
+def payment_cancel_view(request):
+    """Handle cancelled payment callback from SSLCommerz"""
+    if request.method == 'POST':
+        data = request.POST
+    else:
+        data = request.GET
+    
+    tran_id = data.get('tran_id')
+    
+    if tran_id:
+        try:
+            payment = Payment.objects.get(transaction_id=tran_id)
+            payment.status = 'cancelled'
+            payment.gateway_response = dict(data)
+            payment.save()
+            
+            booking = payment.booking
+            booking.payment_status = 'unpaid'
+            booking.save()
+            
+            messages.info(request, 'Payment was cancelled.')
+            return redirect('booking_detail', booking_id=booking.id)
+            
+        except Payment.DoesNotExist:
+            pass
+    
+    messages.info(request, 'Payment was cancelled.')
+    return redirect('dashboard')
+
+
+@csrf_exempt
+def payment_ipn_view(request):
+    """Handle Instant Payment Notification (IPN) from SSLCommerz"""
+    from core.payment import get_payment_gateway
+    import json
+    
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Only POST allowed'})
+    
+    data = request.POST
+    
+    gateway = get_payment_gateway()
+    result = gateway.process_ipn(data)
+    
+    if result['success']:
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error', 'message': result.get('error', 'Unknown error')})
 

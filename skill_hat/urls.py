@@ -45,6 +45,17 @@ urlpatterns = [
     path('dashboard/update-profile/', views.update_profile_view, name='update_profile'),
     path('dashboard/update-worker/', views.update_worker_profile_view, name='update_worker'),
     path('dashboard/booking/<int:booking_id>/action/', views.booking_action_view, name='booking_action'),
+    
+    # Booking
+    path('book/<int:worker_id>/', views.create_booking_view, name='create_booking'),
+    path('booking/<int:booking_id>/', views.booking_detail_view, name='booking_detail'),
+    
+    # Payment (SSLCommerz with bKash, Nagad, etc.)
+    path('payment/initiate/<int:booking_id>/', views.initiate_payment_view, name='initiate_payment'),
+    path('payment/success/', views.payment_success_view, name='payment_success'),
+    path('payment/fail/', views.payment_fail_view, name='payment_fail'),
+    path('payment/cancel/', views.payment_cancel_view, name='payment_cancel'),
+    path('payment/ipn/', views.payment_ipn_view, name='payment_ipn'),
 ]
 
 # Serve media files in development

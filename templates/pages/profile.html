@@ -10,7 +10,7 @@
 <!-- Hero Section with Cover Image -->
 <div class="position-relative" style="background: linear-gradient(135deg, #221010 0%, #3d1f1f 50%, #E37C7C 100%); min-height: 250px; overflow: visible;">
     <!-- Pattern Overlay -->
-    <div class="position-absolute w-100 h-100 top-0 start-0" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.5;"></div>
+    <div class="position-absolute w-100 h-100 top-0 start-0" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.5; pointer-events: none;"></div>
 </div>
 
 <!-- Main Content -->
@@ -18,9 +18,9 @@
     <div class="row g-4">
         
         <!-- Left Column - Main Profile -->
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="position: relative; z-index: 20;">
             <!-- Profile Header Card -->
-            <div class="bg-white rounded-4 shadow-lg p-4 p-md-5 mb-4">
+            <div class="bg-white rounded-4 shadow-lg p-4 p-md-5 mb-4" style="position: relative; z-index: 50;">
                 <div class="row align-items-start">
                     <!-- Profile Image -->
                     <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
@@ -90,13 +90,14 @@
                         </div>
                         
                         <!-- Action Buttons -->
-                        <div class="d-flex gap-2 flex-wrap">
+                        <div class="d-flex gap-2 flex-wrap" style="position: relative; z-index: 100;">
                             {% if user.is_authenticated %}
-                                {% if user.profile.user_type == 'client' %}
-                                <button class="btn px-4 py-2" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="openBookingModal()">
-                                    <i class="fas fa-handshake me-2"></i>Hire Now
-                                </button>
-                                <button class="btn px-4 py-2" style="background: linear-gradient(135deg, #E37C7C, #d65c5c); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                {% with user_type=user.profile.user_type|default:'client' %}
+                                {% if user_type != 'worker' %}
+                                <a href="{% url 'create_booking' worker_obj.id %}" class="btn book-now-btn px-4 py-2" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; cursor: pointer; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <i class="fas fa-calendar-check me-2"></i>Book Now
+                                </a>
+                                <button class="btn px-4 py-2" style="background: linear-gradient(135deg, #E37C7C, #d65c5c); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                     <i class="fas fa-comment-dots me-2"></i>Message
                                 </button>
                                 {% else %}
@@ -104,13 +105,14 @@
                                     <i class="fas fa-info-circle me-2"></i>Workers cannot hire other workers
                                 </div>
                                 {% endif %}
+                                {% endwith %}
                             {% else %}
-                            <button class="btn px-4 py-2" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{% url 'customer_register' %}?next={{ request.path }}'">
-                                <i class="fas fa-handshake me-2"></i>Hire Now
-                            </button>
-                            <button class="btn px-4 py-2" style="background: linear-gradient(135deg, #E37C7C, #d65c5c); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{% url 'customer_register' %}?next={{ request.path }}'">
+                            <a href="{% url 'login' %}?next=/book/{{ worker_obj.id }}/" class="btn px-4 py-2" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                <i class="fas fa-calendar-check me-2"></i>Book Now
+                            </a>
+                            <a href="{% url 'login' %}?next=/worker/{{ worker_obj.id }}/" class="btn px-4 py-2" style="background: linear-gradient(135deg, #E37C7C, #d65c5c); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; position: relative; z-index: 101;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(227, 124, 124, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                 <i class="fas fa-comment-dots me-2"></i>Message
-                            </button>
+                            </a>
                             {% endif %}
                         </div>
                     </div>
@@ -237,15 +239,17 @@
                 
                 <!-- Hire Button -->
                 {% if user.is_authenticated %}
-                    {% if user.profile.user_type == 'client' %}
-                    <button class="btn w-100 py-3" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="openBookingModal()">
-                        <i class="fas fa-calendar-check me-2"></i>Book Now
-                    </button>
-                    {% endif %}
+                    {% with user_type=user.profile.user_type|default:'client' %}
+                        {% if user_type != 'worker' %}
+                        <a href="{% url 'create_booking' worker_obj.id %}" class="btn w-100 py-3" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; cursor: pointer;">
+                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                        </a>
+                        {% endif %}
+                    {% endwith %}
                 {% else %}
-                <button class="btn w-100 py-3" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 16, 16, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{% url 'customer_register' %}?next={{ request.path }}'">
+                <a href="{% url 'login' %}?next=/book/{{ worker_obj.id }}/" class="btn w-100 py-3" style="background: linear-gradient(135deg, #221010, #3d1f1f); color: white; border: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; cursor: pointer;">
                     <i class="fas fa-calendar-check me-2"></i>Book Now
-                </button>
+                </a>
                 {% endif %}
                 
                 <div class="text-center mt-3">

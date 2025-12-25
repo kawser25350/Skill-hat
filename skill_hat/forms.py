@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from core.models import Category
+from core.models import Category, Booking, Service
+from datetime import date, timedelta
 
 
 class LoginForm(forms.Form):
@@ -239,3 +240,84 @@ class WorkerRegisterForm(UserCreationForm):
 
 # Keep old RegisterForm for backward compatibility
 RegisterForm = CustomerRegisterForm
+
+
+class BookingForm(forms.ModelForm):
+    """Booking form for customers to book workers"""
+    
+    scheduled_date = forms.DateField(
+        widget=forms.DateInput(attrs={
+            'class': 'form-control',
+            'type': 'date',
+            'min': date.today().isoformat(),
+        })
+    )
+    scheduled_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={
+            'class': 'form-control',
+            'type': 'time',
+        })
+    )
+    
+    class Meta:
+        model = Booking
+        fields = ['title', 'description', 'location', 'phone', 'scheduled_date', 'scheduled_time', 'service']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Brief title for your booking (e.g., "Kitchen Deep Cleaning")'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Describe your requirements in detail...',
+                'rows': 4
+            }),
+            'location': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Full address where service is needed'
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Contact phone number',
+                'pattern': '[0-9]{11}'
+            }),
+            'service': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+        }
+    
+    def __init__(self, *args, worker=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.worker = worker
+        
+        if worker:
+            # Filter services to only show this worker's services
+            self.fields['service'].queryset = Service.objects.filter(worker=worker, is_active=True)
+            self.fields['service'].empty_label = 'Select a service package (optional)'
+            self.fields['service'].required = False
+    
+    def clean_scheduled_date(self):
+        scheduled_date = self.cleaned_data.get('scheduled_date')
+        if scheduled_date and scheduled_date < date.today():
+            raise forms.ValidationError('Please select a future date.')
+        return scheduled_date
+    
+    def save(self, commit=True, client=None):
+        booking = super().save(commit=False)
+        
+        if client:
+            booking.client = client
+        
+        if self.worker:
+            booking.worker = self.worker
+            
+            # Set estimated price based on service or hourly rate
+            if booking.service:
+                booking.estimated_price = booking.service.price
+            else:
+                booking.estimated_price = self.worker.hourly_rate * 2  # Default 2 hours
+        
+        if commit:
+            booking.save()
+        
+        return booking
