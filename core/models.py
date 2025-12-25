@@ -133,10 +133,19 @@ class Booking(models.Model):
     """Booking/Order between client and worker"""
     STATUS_CHOICES = [
         ('pending', 'Pending'),
-        ('accepted', 'Accepted'),
+        ('confirmed', 'Confirmed'),
+        ('paid', 'Paid'),
         ('in_progress', 'In Progress'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
+    ]
+    
+    PAYMENT_STATUS_CHOICES = [
+        ('unpaid', 'Unpaid'),
+        ('pending', 'Payment Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
     ]
     
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
@@ -147,6 +156,7 @@ class Booking(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=300)
+    phone = models.CharField(max_length=20, blank=True)
     scheduled_date = models.DateField()
     scheduled_time = models.TimeField()
     
@@ -156,6 +166,7 @@ class Booking(models.Model):
     
     # Status
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='unpaid')
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -167,6 +178,61 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking #{self.id} - {self.client.username} → {self.worker}"
+
+
+class Payment(models.Model):
+    """Payment records for bookings - SSLCommerz integration"""
+    PAYMENT_METHOD_CHOICES = [
+        ('bkash', 'bKash'),
+        ('nagad', 'Nagad'),
+        ('rocket', 'Rocket'),
+        ('upay', 'Upay'),
+        ('visa', 'Visa Card'),
+        ('master', 'MasterCard'),
+        ('amex', 'American Express'),
+        ('bank', 'Bank Transfer'),
+        ('sslcommerz', 'SSLCommerz'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('initiated', 'Initiated'),
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('cancelled', 'Cancelled'),
+        ('refunded', 'Refunded'),
+    ]
+    
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='payments')
+    
+    # Payment details
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=10, default='BDT')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='initiated')
+    
+    # SSLCommerz fields
+    transaction_id = models.CharField(max_length=100, unique=True)
+    session_key = models.CharField(max_length=200, blank=True)
+    val_id = models.CharField(max_length=100, blank=True)  # Validation ID from SSLCommerz
+    bank_tran_id = models.CharField(max_length=100, blank=True)
+    card_type = models.CharField(max_length=50, blank=True)
+    card_brand = models.CharField(max_length=50, blank=True)
+    
+    # Store response
+    gateway_response = models.JSONField(default=dict, blank=True)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    paid_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Payment #{self.id} - {self.transaction_id} - {self.status}"
 
 
 class Review(models.Model):
